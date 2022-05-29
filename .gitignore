@@ -4,3 +4,5 @@ dist/
 *.spec
 *.pyc
 *.exe
+*.__pycache__/
+models/

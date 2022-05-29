@@ -1,6 +1,6 @@
 import time
 
-from .utils import resource_path
+from .tools.utils import resource_path
 
 
 class Application(object):
