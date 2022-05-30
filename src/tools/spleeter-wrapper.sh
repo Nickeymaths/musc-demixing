@@ -19,8 +19,9 @@
 
 # Initialize all the option variables.
 # This ensures we are not contaminated by variables from the environment.
-FILE=
-OUTPUT_DIR="outputs"
+FILE=""
+OUTPUT_DIR=""
+TEMP_DIR=""
 TWO_STEMS=('vocals' 'accompaniment')
 FOUR_STEMS=('vocals' 'drums' 'bass' 'other')
 FIVE_STEMS=('vocals' 'drums' 'bass' 'piano' 'other')
@@ -138,10 +139,25 @@ else
             ;;
         (--output=?*)
             OUTPUT_DIR=${1#*=} # Delete everything up to "=" and assign the remainder.
-            # no shift here, so it works even if --file= comes before other options
+            # no shift here, so it works even if --output= comes before other options
             ;;
-        (--output=)         # Handle the case of an empty --file=
+        (--output=)         # Handle the case of an empty --output=
             die 'ERROR: "--output=" requires a non-empty option argument.'
+            ;;
+        (-t|--temp)       # Takes an option argument; ensure it has been specified.
+            if [ "$2" ]; then
+                TEMP_DIR=$2
+            else
+                die 'ERROR: "-o" or "--temp" requires a non-empty option argument.'
+            fi
+            shift
+            ;;
+        (--temp=?*)
+            TEMP_DIR=${1#*=} # Delete everything up to "=" and assign the remainder.
+            # no shift here, so it works even if --temp= comes before other options
+            ;;
+        (--temp=)         # Handle the case of an empty --temp=
+            die 'ERROR: "--temp=" requires a non-empty option argument.'
             ;;
         (--)              # End of all options.
             shift
@@ -164,7 +180,7 @@ fi
 echo "FILE:"
 echo "${FILE}"
 echo "$OUTPUT_DIR:"
-echo "${OUPUT_DIR}"
+echo "${OUTPUT_DIR}"
 echo "SPLEETER_STEMS:"
 echo "$SPLEETER_STEMS"
 echo "STEM_NAMES:"
@@ -175,12 +191,16 @@ echo "$SPLEETER_OUT_EXT"
 # --- End of handling script input options
 
 # Remove extension, by using . as delimiter and select the 1st part (to the left).
-NAME=$(printf "%s" "$FILE" | cut -f 1 -d '.')
+INPUT_FILE=$(printf "%s" "$FILE" | cut -f 1 -d '.')
+NAME="${INPUT_FILE##*/}"
 EXT=$(printf "%s" "$FILE" | awk -F . '{print $NF}')
 echo "Final output EXT:"
 echo "$EXT"
 
-
+if [ "$TEMP_DIR" == "" ]; then
+  TEMP_DIR=""${OUTPUT_DIR%/*}"/tmp"
+fi
+mkdir -p "$TEMP_DIR"
 
 # Will join one stem presumed output by Spleeter.
 joinStem () {
@@ -225,10 +245,13 @@ joinAllStems () {
   # save and change Internal Field Separator (IFS) which says where to split strings into array items
   OLDIFS=$IFS
   IFS=$'\n'
+
   # read all file names into an array, and ensure increasing order so stitched output will be correct
-  fileArray=( $(find $NAME-* -type f | sort -n | cut -f 1 -d '.') ) # not using mapfile or readarray since not supported in Bash versions below v4.
+  fileArray=( $(find "$TEMP_DIR" -iname ""$NAME"-*" | sort -n | cut -f 1 -d '.') ) # not using mapfile or readarray since not supported in Bash versions below v4.
+  fileArray=( "${fileArray[@]##*/}" )
+
   # keep a copy of the list of files for cleanup later
-  fileArrayWithExt=( $(find $NAME-* -type f | sort -n) )
+  fileArrayWithExt=( $(find "$TEMP_DIR" -iname ""$NAME"-*" | sort -n) )
   # restore IFS to the original value (which is: space, tab, newline)
   IFS=$OLDIFS
 
@@ -257,7 +280,7 @@ offsetSplit () {
   LOCAL_EXT="$2"
 
   # First split the audio in 15s parts.
-  ffmpeg -i "$NAME".$LOCAL_EXT -f segment -segment_time 15 -c copy -y "$NAME"-%03d.$LOCAL_EXT
+  ffmpeg -i "$TEMP_DIR"/"$NAME".$LOCAL_EXT -f segment -segment_time 15 -c copy -y "$TEMP_DIR"/"$NAME"-%03d.$LOCAL_EXT
 
   # Then leave the first 15s clip as is (000).
   # Join the second (001) into the third clip (002), the fourth into the fifth, etc. so the resulting parts are 30s clips.
@@ -267,13 +290,13 @@ offsetSplit () {
   prev=$(( $cur - 1 ))
   prevPad=$(printf "%03d" $prev)
   # In the root folder:
-  while [ -f "$NAME-$curPad.$LOCAL_EXT" ]; do
+  while [ -f "$TEMP_DIR"/"$NAME-$curPad.$LOCAL_EXT" ]; do
     # Use filter_complex to successfully concat all file types, also M4A, WMA, and WAV (where each file has a 46 byte file header if made with ffmpeg).
     # Not more overhead compared to using the concat protocol `ffmpeg -f concat -safe 0`, since it has to work on two and two files anyway (and the concat protocol doesn't work with WMA).
-    ffmpeg -i "$NAME-$prevPad.$LOCAL_EXT" -i "$NAME-$curPad.$LOCAL_EXT" -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' tmp.$LOCAL_EXT
-    rm "$NAME"-$curPad.$LOCAL_EXT
-    rm "$NAME"-$prevPad.$LOCAL_EXT
-    mv tmp.$LOCAL_EXT "$NAME"-$curPad.$LOCAL_EXT
+    ffmpeg -i "$TEMP_DIR"/"$NAME-$prevPad.$LOCAL_EXT" -i "$TEMP_DIR"/"$NAME-$curPad.$LOCAL_EXT" -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' "$TEMP_DIR"/tmp.$LOCAL_EXT
+    rm "$TEMP_DIR"/"$NAME"-$curPad.$LOCAL_EXT
+    rm "$TEMP_DIR"/"$NAME"-$prevPad.$LOCAL_EXT
+    mv "$TEMP_DIR"/tmp.$LOCAL_EXT "$TEMP_DIR"/"$NAME"-$curPad.$LOCAL_EXT
     cur=$(( $cur + 2 ))
     curPad=$(printf "%03d" $cur)
     prev=$(( $cur - 1 ))
@@ -283,20 +306,25 @@ offsetSplit () {
 
 
 # Split the file into 30s parts. Using the --process_codec, to avoid a bug with duplicated time segments (repeating seconds), which would otherwise occur when directly splitting audio files of certain codecs like WMA.
-if [[ "$EXT" != "$SPLEETER_OUT_EXT" ]]; then
-  # Create a temp file if the orig. audio file is in a different codec.
-  ffmpeg -i "$NAME".$EXT "$NAME".$SPLEETER_OUT_EXT
-fi
-ffmpeg -i "$NAME".$SPLEETER_OUT_EXT -f segment -segment_time 30 -c copy "$NAME"-%03d.$SPLEETER_OUT_EXT
-
+# if [[ "$EXT" != "$SPLEETER_OUT_EXT" ]]; then
+#   # Create a temp file if the orig. audio file is in a different codec.
+#   ffmpeg -i "$NAME".$EXT "$TEMP_DIR"/"$NAME".$SPLEETER_OUT_EXT
+# fi
+ffmpeg -i "$INPUT_FILE".$EXT "$TEMP_DIR"/"$NAME".$SPLEETER_OUT_EXT
+ffmpeg -i "$TEMP_DIR"/"$NAME".$SPLEETER_OUT_EXT -f segment -segment_time 30 -c copy "$TEMP_DIR"/"$NAME"-%03d.$SPLEETER_OUT_EXT
 
 # Do the separation on the parts.
 # 5x: The 5x space of orig. file in M4A comes from the 5 stems.
-nice -n 19 spleeter separate -p spleeter:$SPLEETER_STEMS -B tensorflow -o "$OUTPUT_DIR" -c $SPLEETER_OUT_EXT "$NAME"-*
+nice -n 19 spleeter separate -p spleeter:$SPLEETER_STEMS -B tensorflow -o "$OUTPUT_DIR" -c $SPLEETER_OUT_EXT "$TEMP_DIR"/"$NAME"-*
 
 # Create separated/"$NAME"/vocals-30.m4a, and similar for the other stems.
 # 5x2x: Temporarily uses 2x space of stems = $stems-30.m4a, before the joined stems are created, and orig. stems deleted, so back to 5x space of orig. file in M4A.
 joinAllStems 30 $SPLEETER_OUT_EXT
+
+
+
+# Done
+
 
 
 # Split the orig. audio file into 30s parts, via splitting to 15s parts and joining two and two (except the first).
@@ -304,16 +332,21 @@ offsetSplit "$NAME" $SPLEETER_OUT_EXT
 
 # Clean up the potential temp file used as the base for splitting, since all the splits are produced, and we only need the splits further on.
 if [[ "$EXT" != "$SPLEETER_OUT_EXT" ]]; then
-  rm "$NAME".$SPLEETER_OUT_EXT
+  rm "$TEMP_DIR"/"$NAME".$SPLEETER_OUT_EXT
 fi
 
 # Do the separation on the parts (which are now the split offsets of the orig. audio file).
 # 5x2x: 5x space of orig. file in M4A (old stems: vocals-30.m4a etc.) + 5x space of orig. file in M4A (new stems).
-nice -n 19 spleeter separate -i "$NAME"-* -p spleeter:$SPLEETER_STEMS -B tensorflow -o "$OUTPUT_DIR" -c $SPLEETER_OUT_EXT
+nice -n 19 spleeter separate -p spleeter:$SPLEETER_STEMS -B tensorflow -o "$OUTPUT_DIR" -c $SPLEETER_OUT_EXT "$TEMP_DIR"/"$NAME"-*
 
 # Create `separated/"$NAME"/vocals-offset.m4a`, and similar for the other stems.
 # 5x2x2x: temporarily 2x space of new stems = $stems-offset.m4a (5x2x2x), when joined stems created, before orig. stems deleted, then back to: 5x2x
 joinAllStems offset $SPLEETER_OUT_EXT
+
+
+
+# Done
+
 
 
 cd "$OUTPUT_DIR"/"$NAME" || exit
@@ -428,3 +461,4 @@ done
 #
 #     See the file LICENSE for the full license.
 #     ---
+

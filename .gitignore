@@ -5,4 +5,6 @@ dist/
 *.pyc
 *.exe
 *.__pycache__/
-models/
+*.ipynb_checkpoints
+*.ipynb
+*stems/
