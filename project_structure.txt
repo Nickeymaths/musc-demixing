@@ -1,0 +1,27 @@
+musc-demixing
+	- build-tools
+	- data
+	- demo
+	- src
+		__init__.py
+		__main__.py
+		app.py
+		gui.py
+		progress.py
+		tools
+			__init__.py
+			- pretraind_models
+				- 2stems
+				- 4stems
+				- 5stems
+			spleeter-wrapper.sh
+			utils.py
+		- ui
+			__init__py
+			app.ui
+			appgui/py
+	.gitignore
+	múc-demixing.py
+	README.md
+	requirements.txt
+	setup.py
