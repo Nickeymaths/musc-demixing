@@ -15,14 +15,24 @@ def demixing(input_sound_path, output_folder_path, temporary_folder_path, stem):
     temporary_folder = Path(temporary_folder_path)
 
     if input_sound_file.exists():
-        cmd = f"bash spleeter-wrapper.sh -f {str(input_sound_file.resolve())} -o {str(output_folder.resolve())} -t {str(temporary_folder.resolve())} -s {stem}"
-        # cmd = "bash simple.sh"
+        cmd = f"bash src/tools/spleeter-wrapper.sh -f {str(input_sound_file.resolve())} -o {str(output_folder.resolve())} -t {str(temporary_folder.resolve())} -s {stem}"
+        # cmd = "bash src/tools/simple.sh"
         sub_process = Popen(cmd, shell=True, stdout=PIPE, stderr=STDOUT)
 
         with sub_process.stdout:
             for line in iter(sub_process.stdout.readline, b''):
                 print(line.decode("utf-8").strip())
 
+def mixing(input_sound_paths, output_file_path):
+    cmd = "ffmpeg"
+    for sf in input_sound_paths:
+        cmd += f" -i {sf}"
+    
+    cmd += f" -filter_complex amix=inputs={len(input_sound_paths)}:duration=shortest {output_file_path}"
+    sub_process = Popen(cmd, shell=True, stdout=PIPE, stderr=STDOUT)
+    with sub_process.stdout:
+        for line in iter(sub_process.stdout.readline, b''):
+                print(line.decode("utf-8").strip())
 
 if __name__ == "__main__":
     argpaser = argparse.ArgumentParser(description="Command line for music demixing")
