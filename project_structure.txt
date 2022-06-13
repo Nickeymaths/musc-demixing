@@ -16,6 +16,10 @@ musc-demixing
 				- 5stems
 			spleeter-wrapper.sh
 			utils.py
+		- kaldi_helper
+			exp
+				chain_cleaned
+				nnet3_cleaned
 		- ui
 			__init__py
 			app.ui
