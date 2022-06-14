@@ -1,4 +1,6 @@
+import subprocess
 import os
+import glob
 from subprocess import Popen, PIPE, STDOUT
 import sys
 from pathlib import Path
@@ -34,12 +36,42 @@ def mixing(input_sound_paths, output_file_path):
         for line in iter(sub_process.stdout.readline, b''):
                 print(line.decode("utf-8").strip())
 
+def decode_result2lyric(decoded_file, output_file):
+    scripts = []
+    with open(decoded_file, "r") as f:
+        lines = f.readlines()
+        scripts = [f.split(" ", 1)[1].strip().lower() for f in lines]
+    
+    with open(output_file, "w") as f:
+        f.write(" ".join(scripts))
+
+def seperate_lyrics(input_sound_path, tmpdir, outputdir, logdir):
+    subprocess.run(f"mkdir -p {outputdir} {tmpdir}", shell=True)
+    cmd = f"./src/kaldi_helper/run.sh {input_sound_path} {tmpdir} {logdir}"
+    subprocess.run(cmd, shell=True)
+
+    tmp_dir_of_sound = os.path.basename(input_sound_path).split('.')[0]
+    tmp_dir_of_sound = tmp_dir_of_sound.lower().replace(" ", "_")
+    decode_dir = Path(tmpdir, tmp_dir_of_sound, "decode_results/scoring_kaldi/penalty_1.0")
+    
+    for i, f in enumerate(glob.glob(f"{decode_dir}/*.txt")):
+        decode_result2lyric(f, f"{outputdir}/lyric_{i}.txt")
+
 if __name__ == "__main__":
+    # argpaser = argparse.ArgumentParser(description="Command line for music demixing")
+    # argpaser.add_argument("input_sound_file", type=str, help="Input sound file path, allowed format: mp3,wav")
+    # argpaser.add_argument("output_folder", type=str, help="Output folder with contain results")
+    # argpaser.add_argument("temporary_folder", type=str, help="Output temporary data folder with contain results")
+    # argpaser.add_argument("stem", type=int, default=5, help="Output temporary data folder with contain results")
+
+    # args = argpaser.parse_args()
+    # demixing(args.input_sound_file, args.output_folder, args.temporary_folder, args.stem)
+
     argpaser = argparse.ArgumentParser(description="Command line for music demixing")
     argpaser.add_argument("input_sound_file", type=str, help="Input sound file path, allowed format: mp3,wav")
-    argpaser.add_argument("output_folder", type=str, help="Output folder with contain results")
     argpaser.add_argument("temporary_folder", type=str, help="Output temporary data folder with contain results")
-    argpaser.add_argument("stem", type=int, default=5, help="Output temporary data folder with contain results")
+    argpaser.add_argument("output_folder", type=str, help="Output folder with contain results")
+    argpaser.add_argument("log_dir", type=str, help="Log dir of lyric separation processing")
 
     args = argpaser.parse_args()
-    demixing(args.input_sound_file, args.output_folder, args.temporary_folder, args.stem)
+    seperate_lyrics(args.input_sound_file, args.temporary_folder, args.output_folder, args.log_dir)

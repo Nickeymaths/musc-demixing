@@ -8,3 +8,5 @@ dist/
 *.ipynb_checkpoints
 */.ipynb_checkpoints/*
 *stems/
+
+src/kaldi_helper/exp/

@@ -18,8 +18,11 @@ musc-demixing
 			utils.py
 		- kaldi_helper
 			exp
-				chain_cleaned
-				nnet3_cleaned
+				- chain_cleaned
+				- nnet3_cleaned
+			local
+				-lang_test_tgsmall
+				prepare_data.py
 		- ui
 			__init__py
 			app.ui
