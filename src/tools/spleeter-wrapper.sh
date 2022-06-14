@@ -200,7 +200,8 @@ echo "$EXT"
 if [ "$TEMP_DIR" == "" ]; then
   TEMP_DIR=""${OUTPUT_DIR%/*}"/tmp"
 fi
-mkdir -p "$TEMP_DIR"
+mkdir -p "$TEMP_DIR/$NAME"
+TEMP_DIR="$TEMP_DIR/$NAME"
 
 # Will join one stem presumed output by Spleeter.
 joinStem () {
@@ -444,6 +445,7 @@ for stem_name in "${STEM_NAMES[@]}"; do
   fixTimestamps $stem_name $EXT
 done
 
+rm -r "$TEMP_DIR"
 
 #     --- License notice:
 #     This program is free software: you can redistribute it and/or modify
