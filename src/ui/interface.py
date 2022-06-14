@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import icons_rc
+from . import icons_rc
 
 
 class Ui_MainWindow(object):
@@ -1311,13 +1311,3 @@ class Ui_MainWindow(object):
         if value != "None":
             print("*****")
             print("Thêm thành phần vào danh sách cần mix")
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

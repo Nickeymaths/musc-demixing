@@ -10,3 +10,7 @@ dist/
 *stems/
 
 src/kaldi_helper/exp/
+
+# Resources
+src/ui/icons/
+src/ui/images/
