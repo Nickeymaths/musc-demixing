@@ -289,13 +289,13 @@
     <file>icons/zoom-out.svg</file>
   </qresource>
   <qresource prefix="images">
+    <file>images/retro.png</file>
     <file>images/add.png</file>
     <file>images/bass.png</file>
     <file>images/drum.png</file>
     <file>images/music.png</file>
     <file>images/other.png</file>
     <file>images/piano.png</file>
-    <file>images/retro.png</file>
     <file>images/vocal.png</file>
   </qresource>
 </RCC>
