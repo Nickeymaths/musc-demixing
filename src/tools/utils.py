@@ -56,22 +56,23 @@ def seperate_lyrics(input_sound_path, tmpdir, outputdir, logdir):
     
     for i, f in enumerate(glob.glob(f"{decode_dir}/*.txt")):
         decode_result2lyric(f, f"{outputdir}/lyric_{i}.txt")
+    subprocess.run(f"rm -r {tmpdir}/{tmp_dir_of_sound}")
 
 if __name__ == "__main__":
-    # argpaser = argparse.ArgumentParser(description="Command line for music demixing")
-    # argpaser.add_argument("input_sound_file", type=str, help="Input sound file path, allowed format: mp3,wav")
-    # argpaser.add_argument("output_folder", type=str, help="Output folder with contain results")
-    # argpaser.add_argument("temporary_folder", type=str, help="Output temporary data folder with contain results")
-    # argpaser.add_argument("stem", type=int, default=5, help="Output temporary data folder with contain results")
-
-    # args = argpaser.parse_args()
-    # demixing(args.input_sound_file, args.output_folder, args.temporary_folder, args.stem)
-
     argpaser = argparse.ArgumentParser(description="Command line for music demixing")
     argpaser.add_argument("input_sound_file", type=str, help="Input sound file path, allowed format: mp3,wav")
-    argpaser.add_argument("temporary_folder", type=str, help="Output temporary data folder with contain results")
     argpaser.add_argument("output_folder", type=str, help="Output folder with contain results")
-    argpaser.add_argument("log_dir", type=str, help="Log dir of lyric separation processing")
+    argpaser.add_argument("temporary_folder", type=str, help="Output temporary data folder with contain results")
+    argpaser.add_argument("stem", type=int, default=5, help="Output temporary data folder with contain results")
 
     args = argpaser.parse_args()
-    seperate_lyrics(args.input_sound_file, args.temporary_folder, args.output_folder, args.log_dir)
+    demixing(args.input_sound_file, args.output_folder, args.temporary_folder, args.stem)
+
+    # argpaser = argparse.ArgumentParser(description="Command line for music demixing")
+    # argpaser.add_argument("input_sound_file", type=str, help="Input sound file path, allowed format: mp3,wav")
+    # argpaser.add_argument("temporary_folder", type=str, help="Output temporary data folder with contain results")
+    # argpaser.add_argument("output_folder", type=str, help="Output folder with contain results")
+    # argpaser.add_argument("log_dir", type=str, help="Log dir of lyric separation processing")
+
+    # args = argpaser.parse_args()
+    # seperate_lyrics(args.input_sound_file, args.temporary_folder, args.output_folder, args.log_dir)

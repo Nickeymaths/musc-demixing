@@ -311,7 +311,7 @@ offsetSplit () {
 #   # Create a temp file if the orig. audio file is in a different codec.
 #   ffmpeg -i "$NAME".$EXT "$TEMP_DIR"/"$NAME".$SPLEETER_OUT_EXT
 # fi
-ffmpeg -i "$INPUT_FILE".$EXT "$TEMP_DIR"/"$NAME".$SPLEETER_OUT_EXT
+ffmpeg -i "$INPUT_FILE".$EXT -vn "$TEMP_DIR"/"$NAME".$SPLEETER_OUT_EXT
 ffmpeg -i "$TEMP_DIR"/"$NAME".$SPLEETER_OUT_EXT -f segment -segment_time 30 -c copy "$TEMP_DIR"/"$NAME"-%03d.$SPLEETER_OUT_EXT
 
 # Do the separation on the parts.
@@ -445,6 +445,7 @@ for stem_name in "${STEM_NAMES[@]}"; do
   fixTimestamps $stem_name $EXT
 done
 
+echo $TEMP_DIR
 rm -r "$TEMP_DIR"
 
 #     --- License notice:

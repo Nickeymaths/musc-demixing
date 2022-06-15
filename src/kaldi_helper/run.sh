@@ -37,9 +37,9 @@ utils/fix_data_dir.sh $data
 
 # Make mfcc and normalize mfcc feature
 steps/make_mfcc.sh --cmd "$train_cmd" --nj 16 --mfcc-config \
-conf/mfcc_hires.conf $data $data/log/make_mfcc $mfcc
+conf/mfcc_hires.conf $data $data/log/make_mfcc $data/mfcc
 
-steps/compute_cmvn_stats.sh $data $data/log/make_mfcc $mfcc
+steps/compute_cmvn_stats.sh $data $data/log/make_mfcc $data/mfcc
 
 # Extract ivector feature
 nspk=$(wc -l <$data/spk2utt)
@@ -75,8 +75,5 @@ mv "$decode_results/log/"* "$logdir/decode"
 
 mkdir -p "$logdir/score"
 mv "$decode_results/scoring_kaldi/log/"* "$logdir/score"
-
-# Remove tmpdir
-rm -r "$tmp"
 
 cd ../..
