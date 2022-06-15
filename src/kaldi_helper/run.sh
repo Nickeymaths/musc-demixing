@@ -16,8 +16,8 @@ EXT="${audio_file##*.}"
 # prepare output, log directories
 mkdir -p "$tmp/$NAME"
 mkdir -p "$logdir/$NAME"
-tmp="$tmp/$NAME"
-logdir="$logdir/$NAME"
+# tmp="$tmp/$NAME"
+# logdir="$logdir/$NAME"
 
 data=$tmp/data
 tmp_audio_dir=$tmp/audios
