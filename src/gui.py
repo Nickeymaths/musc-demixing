@@ -9,6 +9,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.app = app
         self.setupUi(self)
         self.addAllEventHandelers()
+
+        with open("user_data_location.txt") as f:
+            self.user_data_folder = f.readlines()[0]
     
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.spleet))
@@ -41,30 +44,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.comboBoxListMix.currentTextChanged.connect(self.addEleMix)
 
     # Thêm bài hát trong page Spleet
-    def addSongSpleet(self):
+    def addSongSpleet(self, mp3_path):
         print("*****")
+        self.app.spleetSong(mp3_path, self.user_data_folder)
         print("Thêm bài hát trong page Spleet")
 
     # Hiện bài hát hiện tại ra giữa màn hình Spleet, cập nhật tên bài hát và tác giả
     # sau khi tách bài hát đấy thành các thành phần
     def showSongSpleet(self):
         print("*****")
-        self.spleetSong()
+        # self.spleetSong()
         print("Hiện bài hát hiện tại ra giữa màn hình Spleet")
         print("Cập nhật tên bài hát và tác giả")
-
-    # Tách bài hát thành các thành phần
-    def spleetSong(self):
-        print("Tách bài hát thành các thành phần")
-
-    # Tạo bài hát hoàn chỉnh từ mảng tham số được truyền vào
-    def combineSong(self):
-        print("Tạo bài hát hoàn chỉnh từ mảng tham số được truyền vào")
 
     # Phát bài hát được tạo từ mảng tham số được truyền vào
     def playSong(self, index):
         print("*****")
-        self.combineSong()
+        # self.app.combineSong()
         if index == 0:
             print("Phát bài hát")
         elif index == -1:
@@ -75,26 +71,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # Tải bài hát được tạo từ mảng tham số được truyền vào
     def downSong(self):
         print("*****")
-        self.combineSong()
+        # self.combineSong()
         print("Tải bài hát")
 
     # Điều chỉnh tốc độ bài hát được tạo từ mảng tham số được truyền vào
     def adjustSpeed(self):
         print("*****")
-        self.combineSong()
+        # self.combineSong()
         print("Điều chỉnh tốc độ bài hát")
 
     # Tua bài hát được tạo từ mảng tham số được truyền vào đến vị trí mong muốn
     def rewindSong(self):
         print("*****")
-        self.combineSong()
+        # self.combineSong()
         print("Tua bài hát đến vị trí mong muốn")
 
     # Điều chỉnh âm lượng thành phần được truyền làm tham số
     def adjustVolume(self):
         print("*****")
         print("Điều chỉnh âm lượng thành phần được truyền làm tham số")
-        self.combineSong()
+        # self.combineSong()
 
     # Thêm bài hát trong page Lyric
     def addSongLyric(self):
@@ -117,7 +113,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # sau khi tách bài hát thành 5 thành phần
     def addSongMix(self):
         print("*****")
-        self.spleetSong()
         print("Thêm bài hát trong page Mix")
 
     # Xóa thành phần được truyền tham số trong danh sách cần mix
