@@ -446,7 +446,7 @@ for stem_name in "${STEM_NAMES[@]}"; do
 done
 
 echo $TEMP_DIR
-rm -r "$TEMP_DIR"
+# rm -r "$TEMP_DIR"
 
 #     --- License notice:
 #     This program is free software: you can redistribute it and/or modify

@@ -72,13 +72,12 @@ def seperate_lyrics(input_sound_path, tmpdir, outputdir, logdir):
     cmd = f"./src/kaldi_helper/run.sh {input_sound_path} {tmpdir} {logdir}"
     subprocess.run(cmd, shell=True)
 
-    tmp_dir_of_sound = os.path.basename(input_sound_path).split('.')[0]
-    tmp_dir_of_sound = tmp_dir_of_sound.lower().replace(" ", "_")
-    decode_dir = Path(tmpdir, tmp_dir_of_sound, "decode_results/scoring_kaldi/penalty_1.0")
+    decode_dir = Path(tmpdir, "decode_results/scoring_kaldi/penalty_1.0")
     
     for i, f in enumerate(glob.glob(f"{decode_dir}/*.txt")):
         decode_result2lyric(f, f"{outputdir}/lyric_{i}.txt")
-    subprocess.run(f"rm -r {tmpdir}/{tmp_dir_of_sound}")
+        
+    subprocess.run(f"rm -r {tmpdir}", shell=True)
 
 if __name__ == "__main__":
     # argpaser = argparse.ArgumentParser(description="Command line for music demixing")

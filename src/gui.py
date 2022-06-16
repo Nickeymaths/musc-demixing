@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow
+
 from .ui.appgui import Ui_MainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia
 from PyQt5.QtCore import QUrl
@@ -16,6 +17,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.listSong = ["D:\Downloads\\7 Years - Lukas Graham.mp3", "D:\Downloads\Perfect - Ed Sheeran.mp3"]
         self.currentIndex = 0
 
+        with open("user_data_location.txt") as f:
+            self.user_data_folder = f.readlines()[0]
+    
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.spleet))
         self.mixBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.mix))
@@ -49,6 +53,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # Thêm bài hát trong page Spleet
     def addSongSpleet(self):
         print("*****")
+        mp3_path = "../user_data/foo.mp3"
+        self.app.spleetSong(mp3_path, self.user_data_folder)
+        self.app.detachLyric(self.user_data_folder, "foo")
         print("Thêm bài hát trong page Spleet")
         hisPath = os.path.join(os.getcwd(), 'data/lib/list.txt')
         fileName = QFileDialog.getOpenFileName(filter="*.wav *.mp3")
@@ -58,8 +65,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 lines = f.read().split("\n")
                 if fileName[0] not in lines:
                     f.write(fileName[0] + "\n")
-        self.spleetSong()
-        self.detachLyric()
 
     # Hiện bài hát hiện tại ra giữa màn hình Spleet, cập nhật tên bài hát và tác giả
     # sau khi tách bài hát đấy thành các thành phần
@@ -107,7 +112,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # Tải bài hát được tạo từ mảng tham số được truyền vào
     def downSong(self):
         print("*****")
-        self.combineSong()
+        # self.combineSong()
         print("Tải bài hát")
 
     # Điều chỉnh tốc độ bài hát được tạo từ mảng tham số được truyền vào
@@ -129,19 +134,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("*****")
         print("Điều chỉnh âm lượng thành phần được truyền làm tham số")
 
-    # Tách lời bài hát
-    def detachLyric(self):
-        print("Tách lời bài hát")
-        """
-            input: đường dẫn đến bài hát
-            output: void
-        """
-
     # Thêm bài hát trong page Mix
     # sau khi tách bài hát thành 5 thành phần
     def addSongMix(self):
         print("*****")
-        self.spleetSong()
         print("Thêm bài hát trong page Mix")
 
     # Xóa thành phần được truyền tham số trong danh sách cần mix
