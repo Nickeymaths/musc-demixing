@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from . import icons_rc
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -714,7 +715,7 @@ class Ui_MainWindow(object):
         self.listMix.setStyleSheet("QComboBox QAbstractItemView {\n"
                                    "    background-color: white;\n"
                                    "    selection-background-color: blue;\n"
-                                #    "    color: white;\n"
+                                   "    color: white;\n"
                                    "}")
         self.listMix.setObjectName("listMix")
         self.frame_39 = QtWidgets.QFrame(self.listMix)
