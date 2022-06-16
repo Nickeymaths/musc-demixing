@@ -1,17 +1,17 @@
-import argparse
 import sys
-import traceback
 
-from src.ui.interface import *
+from PyQt5.QtWidgets import QApplication
+from .gui import MainWindow
+from .app import Application
 
 
 def main():
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    app = Application()
+
+    qapp = QApplication(sys.argv)
+    gui = MainWindow(app)
+    gui.show()
+    sys.exit(qapp.exec_())
 
 
 if __name__ == '__main__':
