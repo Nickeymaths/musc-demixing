@@ -6,6 +6,8 @@ from PyQt5.QtCore import QUrl
 from PyQt5.QtMultimedia import QMediaPlaylist, QMediaPlayer, QMediaContent
 from PyQt5.QtWidgets import QFileDialog
 import os
+from .ui import icons_rc
+from pathlib import Path
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -14,22 +16,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.app = app
         self.setupUi(self)
         self.addAllEventHandelers()
-        self.listSong = ["D:\Downloads\\7 Years - Lukas Graham.mp3", "D:\Downloads\Perfect - Ed Sheeran.mp3"]
-        self.currentIndex = 0
+
+        self.currentSongName = ""
+
+        self.elements = {
+            "vocals": QMediaPlayer(),
+            "bass": QMediaPlayer(),
+            "piano": QMediaPlayer(),
+            "drums": QMediaPlayer(),
+            "other": QMediaPlayer()
+        }
 
         with open("user_data_location.txt") as f:
             self.user_data_folder = f.readlines()[0]
-    
+
+        self.updateListSongFromLib()
+
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.spleet))
         self.mixBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.mix))
 
         self.addBtnSpleet.clicked.connect(self.addSongSpleet)
-        self.songListSpleet.clicked.connect(self.showSongSpleet)
-        self.downSongSpleet.clicked.connect(self.downSong)
-        self.playBtnSpleet.clicked.connect(lambda: self.playSong(0))
-        self.prevBtnSpleet.clicked.connect(lambda: self.playSong(-1))
-        self.nextBtnSpleet.clicked.connect(lambda: self.playSong(1))
+        self.playBtnSpleet.clicked.connect(self.playOrPauseSong)
+        self.prevBtnSpleet.clicked.connect(lambda: self.nextOrPrevSong(-1))
+        self.nextBtnSpleet.clicked.connect(lambda: self.nextOrPrevSong(1))
         self.speedBtn.clicked.connect(self.adjustSpeed)
         self.sliderSongPlayingSpleet.valueChanged.connect(self.rewindSong)
         self.sliderVocalSpleet.valueChanged.connect(self.adjustVolume)
@@ -50,69 +60,106 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.exportBtnMix.clicked.connect(self.downSong)
         self.comboBoxListMix.currentTextChanged.connect(self.addEleMix)
 
+    def updateListSongFromLib(self):
+        self.listSong = os.listdir(self.user_data_folder + "/lib")
+        for i in range(len(self.listSong)):
+            eSongBtn, downBtn = self.createElementSongUI(i)
+            self.createElementSongEventHanlder(i, eSongBtn, downBtn)
+
+    def createElementSongUI(self, index):
+        frame = QtWidgets.QFrame(self.listSpleet)
+        frame.setGeometry(QtCore.QRect(0, 50 * index, 150, 41))
+        frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        frame.setFrameShadow(QtWidgets.QFrame.Raised)
+
+        nameSongListSpleet = QtWidgets.QLabel(frame)
+        nameSongListSpleet.setGeometry(QtCore.QRect(40, 8, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        nameSongListSpleet.setFont(font)
+
+        songListSpleet = QtWidgets.QPushButton(frame)
+        songListSpleet.setGeometry(QtCore.QRect(0, 0, 140, 41))
+        songListSpleet.setMinimumSize(QtCore.QSize(140, 0))
+        songListSpleet.setMaximumSize(QtCore.QSize(140, 16777215))
+        songListSpleet.setStyleSheet("background-color: transparent;\n"
+                                     "border: 1px solid #9C9BBB;\n"
+                                     "border-radius: 9;")
+        songListSpleet.setText("")
+
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/icons/icons/download.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        downSongSpleet = QtWidgets.QPushButton(frame)
+        downSongSpleet.setGeometry(QtCore.QRect(113, 10, 22, 22))
+        downSongSpleet.setStyleSheet("background: transparent;\n"
+                                     "border-radius: 11;")
+        downSongSpleet.setText("")
+        downSongSpleet.setIcon(icon2)
+        downSongSpleet.setIconSize(QtCore.QSize(12, 12))
+
+        label = QtWidgets.QLabel(frame)
+        label.setGeometry(QtCore.QRect(5, 5, 30, 30))
+        label.setText("")
+        label.setPixmap(QtGui.QPixmap(":/images/images/music.png"))
+
+        nameSongListSpleet.setText(self.listSong[index])
+        frame.show()
+
+        return songListSpleet, downSongSpleet
+
+    def createElementSongEventHanlder(self, i, eSongBtn, downBtn):
+        eSongBtn.clicked.connect(lambda: self.showSongSpleet(i))
+        downBtn.clicked.connect(self.downSong)
+
     # Thêm bài hát trong page Spleet
     def addSongSpleet(self):
-        print("*****")
-        mp3_path = "../user_data/foo.mp3"
-        self.app.spleetSong(mp3_path, self.user_data_folder)
-        self.app.detachLyric(self.user_data_folder, "foo")
-        print("Thêm bài hát trong page Spleet")
-        hisPath = os.path.join(os.getcwd(), 'data/lib/list.txt')
         fileName = QFileDialog.getOpenFileName(filter="*.wav *.mp3")
+
         if fileName[0] != "":
-            with open(hisPath, 'a+') as f:
-                f.seek(0)
-                lines = f.read().split("\n")
-                if fileName[0] not in lines:
-                    f.write(fileName[0] + "\n")
+            song_name = fileName[0].split("/")[-1].split(".")[0]
+            if song_name not in self.listSong:
+                # song_folder_in_lib = Path(self.user_data_folder, "lib", song_name)
+                # song_folder_in_lib.mkdir(exist_ok=True, parents=True)
+                self.app.spleetSong(song_name, self.user_data_folder)
+                self.app.detachLyric(self.user_data_folder, song_name)
+                self.updateListSongFromLib()
 
-    # Hiện bài hát hiện tại ra giữa màn hình Spleet, cập nhật tên bài hát và tác giả
-    # sau khi tách bài hát đấy thành các thành phần
-    def showSongSpleet(self, index=0):
+    # Cập nhật tên bài hát
+    def showSongSpleet(self, index):
+        self.currentSongName = self.listSong[index]
+        self.nameSongPlayingSpleet.setText(self.currentSongName)
+
+    def playOrPauseSong(self):
         print("*****")
-        self.currentSong = index
-        print("Hiện bài hát hiện tại ra giữa màn hình Spleet")
-        print("Cập nhật tên bài hát")
-        self.nameSongPlayingSpleet.setText(self.listSong[index].split("\\")[-1].split(".")[0])
+        print("Dừng hoặc phát bài hát")
 
-    # Tách bài hát thành các thành phần
-    def spleetSong(self, path):
-        print("Tách bài hát thành các thành phần")
-        """
-            input: đường dẫn đến bài hát
-            output: void
-        """
+    # Phát bài hát
+    def nextOrPrevSong(self, index):
+        if self.currentSongName == "":
+            currentIndex = 0
+        else:
+            currentIndex = self.listSong.index(self.currentSongName) + index
 
-    # Tạo bài hát hoàn chỉnh từ mảng tham số được truyền vào
-    def combineSong(self):
-        print("Tạo bài hát hoàn chỉnh từ mảng tham số được truyền vào")
-        """
-            input: Array: là 1 danh sách các đường dẫn của các thành phần cần nối 
-            output: đường dẫn bài hát sau khi nối
-        """
+        if currentIndex < 0:
+            self.currentSongName = self.listSong[0]
+        elif currentIndex >= len(self.listSong):
+            self.currentSongName = self.listSong[-1]
+        else:
+            self.currentSongName = self.listSong[currentIndex]
 
-    # Phát bài hát được tạo từ mảng tham số được truyền vào
-    def playSong(self, index):
-        print("*****")
-        self.currentIndex += index
-        if self.currentIndex < 0:
-            self.currentIndex = 0
-        elif self.currentIndex >= len(self.listSong):
-            self.currentIndex = len(self.listSong) - 1
+        self.nameSongPlayingSpleet.setText(self.currentSongName)
 
-        nameSong = self.listSong[self.currentIndex].split("\\")[-1].split(".")[0]
-        pathSong = "data\lib\\" + nameSong + "\\" + nameSong + ".mp3"
-        fullpath = os.path.join(os.getcwd(), pathSong)
-        url = QUrl.fromLocalFile(fullpath)
-        content = QMediaContent(url)
-        self.player = QMediaPlayer()
-        self.player.setMedia(content)
-        self.player.play()
+        songFolder = Path(self.user_data_folder, "lib", self.currentSongName)
+
+        for ePath in self.elements.keys():
+            url = QUrl.fromLocalFile(str(songFolder) + "/" + ePath + ".mp3")
+            content = QMediaContent(url)
+            self.elements[ePath].setMedia(content)
+            self.elements[ePath].play()
 
     # Tải bài hát được tạo từ mảng tham số được truyền vào
     def downSong(self):
         print("*****")
-        # self.combineSong()
         print("Tải bài hát")
 
     # Điều chỉnh tốc độ bài hát được tạo từ mảng tham số được truyền vào
