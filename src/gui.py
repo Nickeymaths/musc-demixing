@@ -17,8 +17,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.addAllEventHandelers()
 
-        self.currentSongName = ""
-
         self.elements = {
             "vocals": QMediaPlayer(),
             "bass": QMediaPlayer(),
@@ -31,6 +29,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.user_data_folder = f.readlines()[0]
 
         self.updateListSongFromLib()
+        if len(self.listSong) == 0:
+            self.currentSongName = ""
+        else:
+            self.currentSongName = self.listSong[0]
+            self.nameSongPlayingSpleet.setText(self.currentSongName)
 
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.spleet))
@@ -52,7 +55,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.downPianoSpleet.clicked.connect(self.downSong)
         self.downDrumSpleet.clicked.connect(self.downSong)
         self.downOtherSpleet.clicked.connect(self.downSong)
-        self.addBtnMix.clicked.connect(self.addSongMix)
         self.playBtnMix.clicked.connect(lambda: self.playSong(0))
         self.sliderSongPlayingMix.valueChanged.connect(self.rewindSong)
         self.sliderEleMix.valueChanged.connect(self.adjustVolume)
@@ -68,12 +70,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def createElementSongUI(self, index):
         frame = QtWidgets.QFrame(self.listSpleet)
-        frame.setGeometry(QtCore.QRect(0, 50 * index, 150, 41))
+        frame.setGeometry(QtCore.QRect(0, 45 * index, 150, 41))
         frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         frame.setFrameShadow(QtWidgets.QFrame.Raised)
 
         nameSongListSpleet = QtWidgets.QLabel(frame)
-        nameSongListSpleet.setGeometry(QtCore.QRect(40, 8, 71, 16))
+        nameSongListSpleet.setGeometry(QtCore.QRect(40, 12, 71, 16))
         font = QtGui.QFont()
         font.setFamily("Arial")
         nameSongListSpleet.setFont(font)
@@ -129,33 +131,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentSongName = self.listSong[index]
         self.nameSongPlayingSpleet.setText(self.currentSongName)
 
+    # Phát hoặc dừng bài hát hiện tại
     def playOrPauseSong(self):
-        print("*****")
-        print("Dừng hoặc phát bài hát")
+        if self.currentSongName != "":
+            songFolder = Path(self.user_data_folder, "lib", self.currentSongName)
 
-    # Phát bài hát
+            for ePath in self.elements.keys():
+                if self.elements[ePath].state() == QMediaPlayer.StoppedState:
+                    url = QUrl.fromLocalFile(str(songFolder) + "/" + ePath + ".mp3")
+                    content = QMediaContent(url)
+                    self.elements[ePath].setMedia(content)
+                    self.elements[ePath].play()
+                elif self.elements[ePath].state() == QMediaPlayer.PlayingState:
+                    self.elements[ePath].pause()
+                else:
+                    self.elements[ePath].play()
+
+    # Phát bài hát trước hoặc sau
     def nextOrPrevSong(self, index):
-        if self.currentSongName == "":
-            currentIndex = 0
-        else:
+        if self.currentSongName != "":
             currentIndex = self.listSong.index(self.currentSongName) + index
 
-        if currentIndex < 0:
-            self.currentSongName = self.listSong[0]
-        elif currentIndex >= len(self.listSong):
-            self.currentSongName = self.listSong[-1]
-        else:
-            self.currentSongName = self.listSong[currentIndex]
+            if currentIndex < 0:
+                self.currentSongName = self.listSong[0]
+            elif currentIndex >= len(self.listSong):
+                self.currentSongName = self.listSong[-1]
+            else:
+                self.currentSongName = self.listSong[currentIndex]
 
-        self.nameSongPlayingSpleet.setText(self.currentSongName)
+            self.nameSongPlayingSpleet.setText(self.currentSongName)
 
-        songFolder = Path(self.user_data_folder, "lib", self.currentSongName)
+            songFolder = Path(self.user_data_folder, "lib", self.currentSongName)
 
-        for ePath in self.elements.keys():
-            url = QUrl.fromLocalFile(str(songFolder) + "/" + ePath + ".mp3")
-            content = QMediaContent(url)
-            self.elements[ePath].setMedia(content)
-            self.elements[ePath].play()
+            for ePath in self.elements.keys():
+                url = QUrl.fromLocalFile(str(songFolder) + "/" + ePath + ".mp3")
+                content = QMediaContent(url)
+                self.elements[ePath].setMedia(content)
+                self.elements[ePath].play()
 
     # Tải bài hát được tạo từ mảng tham số được truyền vào
     def downSong(self):
@@ -180,12 +192,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def adjustVolume(self):
         print("*****")
         print("Điều chỉnh âm lượng thành phần được truyền làm tham số")
-
-    # Thêm bài hát trong page Mix
-    # sau khi tách bài hát thành 5 thành phần
-    def addSongMix(self):
-        print("*****")
-        print("Thêm bài hát trong page Mix")
 
     # Xóa thành phần được truyền tham số trong danh sách cần mix
     def removeEleMix(self):

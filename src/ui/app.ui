@@ -382,7 +382,7 @@ QStackedWidget&gt;* {
              <string notr="true"/>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="spleet">
              <widget class="QFrame" name="frame">
@@ -882,13 +882,13 @@ border-radius: 12px;
                 <number>1</number>
                </property>
                <property name="text">
-                <string>Esther Howard</string>
+                <string/>
                </property>
                <property name="wordWrap">
                 <bool>false</bool>
                </property>
               </widget>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
                  <x>61</x>
@@ -1075,135 +1075,6 @@ border: none;</string>
                     <height>1000</height>
                    </size>
                   </property>
-                  <widget class="QFrame" name="frame_13">
-                   <property name="geometry">
-                    <rect>
-                     <x>0</x>
-                     <y>0</y>
-                     <width>150</width>
-                     <height>41</height>
-                    </rect>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                   <widget class="QLabel" name="nameSongListSpleet">
-                    <property name="geometry">
-                     <rect>
-                      <x>40</x>
-                      <y>8</y>
-                      <width>71</width>
-                      <height>16</height>
-                     </rect>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Arial</family>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Esther Howard</string>
-                    </property>
-                   </widget>
-                   <widget class="QLabel" name="authorSongListSpleet">
-                    <property name="geometry">
-                     <rect>
-                      <x>40</x>
-                      <y>20</y>
-                      <width>71</width>
-                      <height>16</height>
-                     </rect>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Arial</family>
-                      <pointsize>6</pointsize>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">color: #9C9BBB</string>
-                    </property>
-                    <property name="text">
-                     <string>Guary</string>
-                    </property>
-                   </widget>
-                   <widget class="QPushButton" name="songListSpleet">
-                    <property name="geometry">
-                     <rect>
-                      <x>0</x>
-                      <y>0</y>
-                      <width>140</width>
-                      <height>41</height>
-                     </rect>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>140</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>140</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">background-color: transparent;
-border: 1px solid #9C9BBB;
-border-radius: 9;</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
-                   <widget class="QPushButton" name="downSongSpleet">
-                    <property name="geometry">
-                     <rect>
-                      <x>113</x>
-                      <y>10</y>
-                      <width>22</width>
-                      <height>22</height>
-                     </rect>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">background: transparent;
-border-radius: 11;</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="icons.qrc">
-                      <normaloff>:/icons/icons/download.svg</normaloff>:/icons/icons/download.svg</iconset>
-                    </property>
-                    <property name="iconSize">
-                     <size>
-                      <width>12</width>
-                      <height>12</height>
-                     </size>
-                    </property>
-                   </widget>
-                   <widget class="QLabel" name="label_18">
-                    <property name="geometry">
-                     <rect>
-                      <x>5</x>
-                      <y>5</y>
-                      <width>30</width>
-                      <height>30</height>
-                     </rect>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="pixmap">
-                     <pixmap resource="icons.qrc">:/images/images/music.png</pixmap>
-                    </property>
-                   </widget>
-                  </widget>
                  </widget>
                 </widget>
                </item>
@@ -1353,7 +1224,7 @@ QSlider::handle:horizontal {
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
-                 <widget class="QWidget" name="">
+                 <widget class="QWidget" name="layoutWidget">
                   <property name="geometry">
                    <rect>
                     <x>1</x>
@@ -1409,34 +1280,13 @@ QSlider::handle:horizontal {
                       <property name="geometry">
                        <rect>
                         <x>40</x>
-                        <y>7</y>
+                        <y>12</y>
                         <width>47</width>
                         <height>14</height>
                        </rect>
                       </property>
                       <property name="text">
                        <string>Vocal</string>
-                      </property>
-                     </widget>
-                     <widget class="QLabel" name="authorSongEleMix">
-                      <property name="geometry">
-                       <rect>
-                        <x>40</x>
-                        <y>20</y>
-                        <width>71</width>
-                        <height>16</height>
-                       </rect>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>6</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color: #9c9bbb</string>
-                      </property>
-                      <property name="text">
-                       <string>Esther Howard</string>
                       </property>
                      </widget>
                     </widget>
@@ -1553,7 +1403,7 @@ border-radius: 6;</string>
                 <number>1</number>
                </property>
                <property name="text">
-                <string>Esther Howard</string>
+                <string/>
                </property>
                <property name="wordWrap">
                 <bool>false</bool>
@@ -1661,6 +1511,12 @@ border-radius: 6;</string>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>24</height>
+                     </size>
+                    </property>
                     <property name="font">
                      <font>
                       <family>Arial</family>
@@ -1674,20 +1530,6 @@ border-radius: 6;</string>
                     </property>
                     <property name="text">
                      <string>List</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item alignment="Qt::AlignRight">
-                   <widget class="QPushButton" name="addBtnMix">
-                    <property name="styleSheet">
-                     <string notr="true">background: transparent</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="icons.qrc">
-                      <normaloff>:/images/images/add.png</normaloff>:/images/images/add.png</iconset>
                     </property>
                    </widget>
                   </item>
@@ -1750,7 +1592,7 @@ border: none;</string>
                     <property name="geometry">
                      <rect>
                       <x>40</x>
-                      <y>8</y>
+                      <y>12</y>
                       <width>41</width>
                       <height>16</height>
                      </rect>
@@ -1762,28 +1604,6 @@ border: none;</string>
                     </property>
                     <property name="text">
                      <string>Esther Howard</string>
-                    </property>
-                   </widget>
-                   <widget class="QLabel" name="authorSongListMix">
-                    <property name="geometry">
-                     <rect>
-                      <x>40</x>
-                      <y>20</y>
-                      <width>41</width>
-                      <height>16</height>
-                     </rect>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Arial</family>
-                      <pointsize>6</pointsize>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">color: #9C9BBB</string>
-                    </property>
-                    <property name="text">
-                     <string>Guary</string>
                     </property>
                    </widget>
                    <widget class="QPushButton" name="songListMix">
