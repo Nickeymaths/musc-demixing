@@ -63,7 +63,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.comboBoxListMix.currentTextChanged.connect(self.addEleMix)
 
     def updateListSongFromLib(self):
-        self.listSong = os.listdir(self.user_data_folder + "/lib")
+        libFolder = Path(self.user_data_folder + "/lib")
+        if not libFolder.exists():
+            libFolder.mkdir(parent=True, exist_ok=True)
+        self.listSong = os.listdir(libFolder)
         for i in range(len(self.listSong)):
             eSongBtn, downBtn = self.createElementSongUI(i)
             self.createElementSongEventHanlder(i, eSongBtn, downBtn)

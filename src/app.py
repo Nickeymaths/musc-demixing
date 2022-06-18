@@ -37,4 +37,4 @@ class Application(object):
         tmp_folder = Path(f"{user_folder_path}/tmp/lyric_seperation/{song_name}")
         log_folder = Path(f"{user_folder_path}/log/lyric_seperation/{song_name}")
 
-        utils.seperate_lyrics(input_mp3, str(tmp_folder), str(lyric_folder), str(log_folder))
+        utils.seperate_lyrics(input_mp3, tmp_folder, lyric_folder, log_folder)
