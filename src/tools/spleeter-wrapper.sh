@@ -192,7 +192,7 @@ echo "$SPLEETER_OUT_EXT"
 
 # Remove extension, by using . as delimiter and select the 1st part (to the left).
 INPUT_FILE=$(printf "%s" "$FILE" | cut -f 1 -d '.')
-NAME="${INPUT_FILE##*/}"
+NAME=$(echo "${INPUT_FILE##*/}" | tr '[:upper:]' '[:lower:]' | sed 's/ /_/g')
 EXT=$(printf "%s" "$FILE" | awk -F . '{print $NF}')
 echo "Final output EXT:"
 echo "$EXT"
@@ -446,7 +446,7 @@ for stem_name in "${STEM_NAMES[@]}"; do
 done
 
 echo $TEMP_DIR
-# rm -r "$TEMP_DIR"
+rm -r "$TEMP_DIR"
 
 #     --- License notice:
 #     This program is free software: you can redistribute it and/or modify

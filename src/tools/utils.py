@@ -68,7 +68,7 @@ def seperate_lyrics(input_sound_path, tmpdir, outputdir, logdir):
         outputdir (str): output of lyrics exp: user_data/lib/song_x/lyrics
         logdir (str): log dir of seperation process exp: user_data/log/lyric_seperation/song_x
     """
-    subprocess.run(f"mkdir -p {outputdir} {tmpdir}", shell=True)
+    subprocess.run(f"mkdir -p {outputdir} {tmpdir} {logdir}", shell=True)
     cmd = f"./src/kaldi_helper/run.sh {input_sound_path} {tmpdir} {logdir}"
     subprocess.run(cmd, shell=True)
 

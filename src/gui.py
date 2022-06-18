@@ -26,7 +26,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         }
 
         with open("user_data_location.txt") as f:
-            self.user_data_folder = f.readlines()[0]
+            self.user_data_folder = f.readlines()[0].strip()
 
         self.updateListSongFromLib()
         if len(self.listSong) == 0:
@@ -122,7 +122,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if song_name not in self.listSong:
                 # song_folder_in_lib = Path(self.user_data_folder, "lib", song_name)
                 # song_folder_in_lib.mkdir(exist_ok=True, parents=True)
-                self.app.spleetSong(song_name, self.user_data_folder)
+                self.app.spleetSong(fileName[0], self.user_data_folder)
                 self.app.detachLyric(self.user_data_folder, song_name)
                 self.updateListSongFromLib()
 

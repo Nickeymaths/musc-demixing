@@ -30,8 +30,11 @@ class Application(object):
             output: void
         """
 
+        song_name = song_name.lower().replace(" ", "_")
         input_mp3 = f"{user_folder_path}/lib/{song_name}/vocals.mp3"
-        lyric_folder = f"{user_folder_path}/lib/{song_name}/lyrics"
-        tmp_folder = f"{user_folder_path}/tmp/lyric_seperation/{song_name}"
-        log_folder = f"{user_folder_path}/log/lyric_seperation/{song_name}"
-        utils.seperate_lyrics(input_mp3, tmp_folder, lyric_folder, log_folder)
+
+        lyric_folder = Path(f"{user_folder_path}/lib/{song_name}/lyrics")
+        tmp_folder = Path(f"{user_folder_path}/tmp/lyric_seperation/{song_name}")
+        log_folder = Path(f"{user_folder_path}/log/lyric_seperation/{song_name}")
+
+        utils.seperate_lyrics(input_mp3, str(tmp_folder), str(lyric_folder), str(log_folder))

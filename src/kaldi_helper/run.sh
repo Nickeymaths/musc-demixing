@@ -14,8 +14,8 @@ NAME=$(echo "${NAME%.*}" | tr '[:upper:]' '[:lower:]' | sed -e 's/ /_/g')
 EXT="${audio_file##*.}"
 
 # prepare output, log directories
-mkdir -p "$tmp/$NAME"
-mkdir -p "$logdir/$NAME"
+# mkdir -p "$tmp/$NAME"
+# mkdir -p "$logdir/$NAME"
 # tmp="$tmp/$NAME"
 # logdir="$logdir/$NAME"
 
@@ -35,14 +35,14 @@ ffmpeg -i "$tmp/$NAME.wav" -f segment -segment_time 10 -c copy "$tmp_audio_dir/$
 python3 local/prepare_data.py "$tmp_audio_dir" $data
 utils/fix_data_dir.sh $data
 
+nspk=$(wc -l <$data/spk2utt)
 # Make mfcc and normalize mfcc feature
-steps/make_mfcc.sh --cmd "$train_cmd" --nj 16 --mfcc-config \
+steps/make_mfcc.sh --cmd "$train_cmd" --nj $nspk --mfcc-config \
 conf/mfcc_hires.conf $data $data/log/make_mfcc $data/mfcc
 
 steps/compute_cmvn_stats.sh $data $data/log/make_mfcc $data/mfcc
 
 # Extract ivector feature
-nspk=$(wc -l <$data/spk2utt)
 steps/online/nnet2/extract_ivectors_online.sh --cmd "$train_cmd" --nj "$nspk" \
 $data exp/nnet3_cleaned/extractor $data/ivectors
 
