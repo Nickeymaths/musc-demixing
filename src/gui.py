@@ -45,11 +45,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.nextBtnSpleet.clicked.connect(lambda: self.nextOrPrevSong(1))
         self.speedBtn.clicked.connect(self.adjustSpeed)
         self.sliderSongPlayingSpleet.valueChanged.connect(self.rewindSong)
-        self.sliderVocalSpleet.valueChanged.connect(self.adjustVolume)
-        self.sliderBassSpleet.valueChanged.connect(self.adjustVolume)
-        self.sliderPianoSpleet.valueChanged.connect(self.adjustVolume)
-        self.sliderDrumSpleet.valueChanged.connect(self.adjustVolume)
-        self.sliderOtherSpleet.valueChanged.connect(self.adjustVolume)
+        self.sliderVocalSpleet.valueChanged.connect(self.adjustVolumeForVocal)
+        self.sliderBassSpleet.valueChanged.connect(self.adjustVolumeForBass)
+        self.sliderPianoSpleet.valueChanged.connect(self.adjustVolumeForPiano)
+        self.sliderDrumSpleet.valueChanged.connect(self.adjustVolumeForDrum)
+        self.sliderOtherSpleet.valueChanged.connect(self.adjustVolumeForOther)
         self.downVocalSpleet.clicked.connect(self.downSong)
         self.downBassSpleet.clicked.connect(self.downSong)
         self.downPianoSpleet.clicked.connect(self.downSong)
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.downOtherSpleet.clicked.connect(self.downSong)
         self.playBtnMix.clicked.connect(lambda: self.playSong(0))
         self.sliderSongPlayingMix.valueChanged.connect(self.rewindSong)
-        self.sliderEleMix.valueChanged.connect(self.adjustVolume)
+        # self.sliderEleMix.valueChanged.connect(self.adjustVolume)
         self.removeEleBtn.clicked.connect(self.removeEleMix)
         self.exportBtnMix.clicked.connect(self.downSong)
         self.comboBoxListMix.currentTextChanged.connect(self.addEleMix)
@@ -193,9 +193,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Tua bài hát đến vị trí mong muốn")
 
     # Điều chỉnh âm lượng thành phần được truyền làm tham số
-    def adjustVolume(self):
-        print("*****")
-        print("Điều chỉnh âm lượng thành phần được truyền làm tham số")
+    def adjustVolumeForVocal(self, value):
+        self.elements["vocals"].setVolume(value)
+    
+    # Điều chỉnh âm lượng thành phần được truyền làm tham số
+    def adjustVolumeForBass(self, value):
+        self.elements["bass"].setVolume(value)
+
+    # Điều chỉnh âm lượng thành phần được truyền làm tham số
+    def adjustVolumeForPiano(self, value):
+        self.elements["piano"].setVolume(value)
+    
+    # Điều chỉnh âm lượng thành phần được truyền làm tham số
+    def adjustVolumeForDrum(self, value):
+        self.elements["drums"].setVolume(value)
+    
+    # Điều chỉnh âm lượng thành phần được truyền làm tham số
+    def adjustVolumeForOther(self, value):
+        self.elements["other"].setVolume(value)
 
     # Xóa thành phần được truyền tham số trong danh sách cần mix
     def removeEleMix(self):
