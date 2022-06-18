@@ -65,7 +65,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def updateListSongFromLib(self):
         libFolder = Path(self.user_data_folder + "/lib")
         if not libFolder.exists():
-            libFolder.mkdir(parent=True, exist_ok=True)
+            libFolder.mkdir(parents=True, exist_ok=True)
         self.listSong = os.listdir(libFolder)
         for i in range(len(self.listSong)):
             eSongBtn, downBtn = self.createElementSongUI(i)
@@ -141,7 +141,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             for ePath in self.elements.keys():
                 if self.elements[ePath].state() == QMediaPlayer.StoppedState:
-                    url = QUrl.fromLocalFile(str(songFolder) + "/" + ePath + ".mp3")
+                    url = QUrl.fromLocalFile(str(Path(songFolder, ePath + ".mp3").resolve()))
+                    print(url)
                     content = QMediaContent(url)
                     self.elements[ePath].setMedia(content)
                     self.elements[ePath].play()
@@ -167,7 +168,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             songFolder = Path(self.user_data_folder, "lib", self.currentSongName)
 
             for ePath in self.elements.keys():
-                url = QUrl.fromLocalFile(str(songFolder) + "/" + ePath + ".mp3")
+                url = QUrl.fromLocalFile(str(Path(songFolder, ePath + ".mp3").resolve()))
                 content = QMediaContent(url)
                 self.elements[ePath].setMedia(content)
                 self.elements[ePath].play()

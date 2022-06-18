@@ -10,7 +10,7 @@ class Application(object):
     def spleetSong(self, mp3_path, user_folder_path):
         lib_path = f"{user_folder_path}/lib"
         tmp_path = f"{user_folder_path}/tmp/demixing"
-        stem = 4
+        stem = 5
 
         utils.demixing(mp3_path, lib_path, tmp_path, stem)
         print("Tách bài hát thành các thành phần")
