@@ -382,7 +382,7 @@ QStackedWidget&gt;* {
              <string notr="true"/>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="spleet">
              <widget class="QFrame" name="frame">
@@ -490,9 +490,18 @@ QPushButton {
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
+                      <width>210</width>
                       <height>16777215</height>
                      </size>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>5</number>
+                    </property>
+                    <property name="value">
+                     <number>100</number>
                     </property>
                     <property name="tracking">
                      <bool>true</bool>
@@ -553,6 +562,21 @@ QPushButton {
                   </item>
                   <item>
                    <widget class="QSlider" name="sliderBassSpleet">
+                    <property name="maximumSize">
+                     <size>
+                      <width>210</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>5</number>
+                    </property>
+                    <property name="value">
+                     <number>100</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -606,6 +630,27 @@ QPushButton {
                   </item>
                   <item>
                    <widget class="QSlider" name="sliderPianoSpleet">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>210</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>5</number>
+                    </property>
+                    <property name="value">
+                     <number>100</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -653,6 +698,21 @@ QPushButton {
                   </item>
                   <item>
                    <widget class="QSlider" name="sliderDrumSpleet">
+                    <property name="maximumSize">
+                     <size>
+                      <width>210</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>5</number>
+                    </property>
+                    <property name="value">
+                     <number>100</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -700,6 +760,21 @@ QPushButton {
                   </item>
                   <item>
                    <widget class="QSlider" name="sliderOtherSpleet">
+                    <property name="maximumSize">
+                     <size>
+                      <width>210</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>5</number>
+                    </property>
+                    <property name="value">
+                     <number>100</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -1280,13 +1355,26 @@ QSlider::handle:horizontal {
                       <property name="geometry">
                        <rect>
                         <x>40</x>
-                        <y>12</y>
-                        <width>47</width>
-                        <height>14</height>
+                        <y>19</y>
+                        <width>65</width>
+                        <height>16</height>
                        </rect>
                       </property>
                       <property name="text">
                        <string>Vocal</string>
+                      </property>
+                     </widget>
+                     <widget class="QLabel" name="nameSongPartEleMix">
+                      <property name="geometry">
+                       <rect>
+                        <x>40</x>
+                        <y>5</y>
+                        <width>65</width>
+                        <height>16</height>
+                       </rect>
+                      </property>
+                      <property name="text">
+                       <string>Esther Song</string>
                       </property>
                      </widget>
                     </widget>
