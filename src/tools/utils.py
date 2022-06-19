@@ -33,22 +33,29 @@ def demixing(input_sound_path, output_folder_path, temporary_folder_path, stem=4
             for line in iter(sub_process.stdout.readline, b''):
                 print(line.decode("utf-8").strip())
 
-def mixing(input_sound_paths, output_file_path):
+def mixing(input_sound_paths, output_folder, new_song_name):
     """
 
     Args:
         input_sound_paths (str): list of path to partion sound files
-        output_file_path (str): output folder store new song exp: user_data/lib/new_song
+        output_file_path (str): output folder store new song exp: user_data/lib/new_song/song.mp3
     """
+    if len(input_sound_paths) == 0:
+        return
+    
+    if len(input_sound_paths) == 1:
+        sub_process.run(f"cp {input_sound_paths[0]} {output_folder}/{new_song_name}.mp3")
+        return
+
     cmd = "ffmpeg"
     for sf in input_sound_paths:
         cmd += f" -i {sf}"
     
-    cmd += f" -filter_complex amix=inputs={len(input_sound_paths)}:duration=shortest {output_file_path}"
+    cmd += f" -filter_complex amix=inputs={len(input_sound_paths)}:duration=longest {output_folder}/{new_song_name}.mp3"
     sub_process = Popen(cmd, shell=True, stdout=PIPE, stderr=STDOUT)
     with sub_process.stdout:
         for line in iter(sub_process.stdout.readline, b''):
-                print(line.decode("utf-8").strip())
+            print(line.decode("utf-8").strip())
 
 def decode_result2lyric(decoded_file, output_file):
     scripts = []
@@ -89,11 +96,17 @@ if __name__ == "__main__":
     # args = argpaser.parse_args()
     # demixing(args.input_sound_file, args.output_folder, args.temporary_folder, args.stem)
 
-    argpaser = argparse.ArgumentParser(description="Command line for music demixing")
-    argpaser.add_argument("input_sound_file", type=str, help="Input sound file path, allowed format: mp3,wav")
-    argpaser.add_argument("temporary_folder", type=str, help="Output temporary data folder with contain results")
-    argpaser.add_argument("output_folder", type=str, help="Output folder with contain results")
-    argpaser.add_argument("log_dir", type=str, help="Log dir of lyric separation processing")
+    # argpaser = argparse.ArgumentParser(description="Command line for music demixing")
+    # argpaser.add_argument("input_sound_file", type=str, help="Input sound file path, allowed format: mp3,wav")
+    # argpaser.add_argument("temporary_folder", type=str, help="Output temporary data folder with contain results")
+    # argpaser.add_argument("output_folder", type=str, help="Output folder with contain results")
+    # argpaser.add_argument("log_dir", type=str, help="Log dir of lyric separation processing")
 
-    args = argpaser.parse_args()
-    seperate_lyrics(args.input_sound_file, args.temporary_folder, args.output_folder, args.log_dir)
+    # args = argpaser.parse_args()
+    # seperate_lyrics(args.input_sound_file, args.temporary_folder, args.output_folder, args.log_dir)
+
+    song_folder = "/media/vinh/3f144d46-6de0-49c5-aedb-ede7be595d7c/user_data/lib/foo"
+    output_folder = "/media/vinh/3f144d46-6de0-49c5-aedb-ede7be595d7c/user_data/lib"
+    song_name = "new_song.mp3"
+    input_sound_paths = glob.glob(song_folder + "/*.mp3")
+    mixing(input_sound_paths, output_folder, song_name)

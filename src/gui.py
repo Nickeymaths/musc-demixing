@@ -79,7 +79,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #self.sliderSongPlayingMix.valueChanged.connect(self.rewindSong)
         # self.sliderEleMix.valueChanged.connect(self.adjustVolume)
         # self.removeEleBtn.clicked.connect(self.removeEleMix)
-        self.exportBtnMix.clicked.connect(self.downSong)
+        self.exportBtnMix.clicked.connect(self.exportMixedSong)
 
         self.sliderSongPlayingSpleet.sliderMoved.connect(self.set_position)
 
@@ -325,8 +325,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.sliderSongPlayingSpleet.setValue(0)
 
     # Tải bài hát được tạo từ mảng tham số được truyền vào
-    def downSong(self):
+    def exportMixedSong(self):
         print("*****")
+
+        output_folder = "data"
+        new_song_name = "new_song"
+
+        all_song_part_list = []
+        for key in self.currentMixSongElement.keys():
+            all_song_part_list += self.currentMixSongElement[key]["path"]
+        
+        for key in self.currentMixSongElement.keys():
+            part_song_path_i = self.currentMixSongElement[key]["path"]
+            self.app.export_custom_mixing_song(str(Path(self.user_data_folder, "lib").resolve()), part_song_path_i, new_song_name)
+
+        self.app.export_custom_mixing_song(output_folder, all_song_part_list, new_song_name)
         print("Tải bài hát")
 
     # Điều chỉnh tốc độ bài hát được tạo từ mảng tham số được truyền vào

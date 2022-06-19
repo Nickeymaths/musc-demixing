@@ -1,3 +1,4 @@
+from wsgiref import util
 from .tools import utils
 from pathlib import Path
 
@@ -38,3 +39,6 @@ class Application(object):
         log_folder = Path(f"{user_folder_path}/log/lyric_seperation/{song_name}")
 
         utils.seperate_lyrics(input_mp3, tmp_folder, lyric_folder, log_folder)
+    
+    def export_custom_mixing_song(self, output_folder, part_song_path_list, new_song_name):
+        util.mixing(part_song_path_list, output_folder, new_song_name)
