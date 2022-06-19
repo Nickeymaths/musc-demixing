@@ -47,6 +47,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.currentSongName = self.listSong[0]
             self.nameSongPlayingSpleet.setText(self.currentSongName)
 
+            # with open("info_song.txt") as i:
+            #     self.sliderSongPlayingSpleet.setMaximum(int(i.readlines()[0])*60)
+
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.spleet))
         self.mixBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.mix))
@@ -56,7 +59,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.prevBtnSpleet.clicked.connect(lambda: self.nextOrPrevSong(-1))
         self.nextBtnSpleet.clicked.connect(lambda: self.nextOrPrevSong(1))
         self.speedBtn.clicked.connect(self.adjustSpeed)
-        self.sliderSongPlayingSpleet.valueChanged.connect(self.rewindSong)
         self.sliderVocalSpleet.valueChanged.connect(lambda:
                                                     self.adjustVolume(self.sliderVocalSpleet.value()
                                                                       , self.elements["vocals"]))
@@ -74,10 +76,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.downDrumSpleet.clicked.connect(self.downSong)
         self.downOtherSpleet.clicked.connect(self.downSong)
         self.playBtnMix.clicked.connect(lambda: self.playSong(0))
-        self.sliderSongPlayingMix.valueChanged.connect(self.rewindSong)
+        #self.sliderSongPlayingMix.valueChanged.connect(self.rewindSong)
         # self.sliderEleMix.valueChanged.connect(self.adjustVolume)
         # self.removeEleBtn.clicked.connect(self.removeEleMix)
         self.exportBtnMix.clicked.connect(self.downSong)
+
+        self.sliderSongPlayingSpleet.sliderMoved.connect(self.set_position)
 
     def updateListSongFromLib(self):
         libFolder = Path(self.user_data_folder + "/lib")
@@ -285,7 +289,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for ePath in self.elements.keys():
                 if self.elements[ePath].state() == QMediaPlayer.StoppedState:
                     url = QUrl.fromLocalFile(str(Path(songFolder, ePath + ".mp3").resolve()))
-                    print(url)
                     content = QMediaContent(url)
                     self.elements[ePath].setMedia(content)
                     self.elements[ePath].play()
@@ -293,6 +296,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.elements[ePath].pause()
                 else:
                     self.elements[ePath].play()
+
+                self.elements[ePath].positionChanged.connect(self.position_changed)
+                self.elements[ePath].durationChanged.connect(self.duration_changed)
 
     # Phát bài hát trước hoặc sau
     def nextOrPrevSong(self, index):
@@ -316,6 +322,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.elements[ePath].setMedia(content)
                 self.elements[ePath].play()
 
+            self.sliderSongPlayingSpleet.setValue(0)
+
     # Tải bài hát được tạo từ mảng tham số được truyền vào
     def downSong(self):
         print("*****")
@@ -331,9 +339,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Điều chỉnh tốc độ bài hát")
 
     # Tua bài hát được tạo từ mảng tham số được truyền vào đến vị trí mong muốn
-    def rewindSong(self):
-        print("*****")
-        print("Tua bài hát đến vị trí mong muốn")
+    def set_position(self, position):
+        for ePath in self.elements.keys():
+            self.elements[ePath].setPosition(position)
+
+    def duration_changed(self, duration):
+        self.sliderSongPlayingSpleet.setRange(0, duration)
+
+    def position_changed(self, possition):
+        self.sliderSongPlayingSpleet.setValue(possition)
 
     # Điều chỉnh âm lượng thành phần được truyền làm tham số
     def adjustVolume(self, value, audio):
