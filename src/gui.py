@@ -25,6 +25,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "other": QMediaPlayer()
         }
 
+        self.speedSongList = [0.5, 1, 1.5, 2]
+        self.currentSpeedSongIndex = 1
+
         self.currentMixSongElement = {
             "vocals": {"path": [], "player": [], "ui": []},
             "bass": {"path": [], "player": [], "ui": []},
@@ -40,6 +43,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.hintLabelEmptySongList.setGeometry(QtCore.QRect(50, 50, 270, 100))
         self.hintLabelEmptySongList.setText("Hãy thêm bài hát")
 
+        self.hintLabelEmptyMixPartSongList = QtWidgets.QLabel(self.mix)
+        self.hintLabelEmptyMixPartSongList.setGeometry(QtCore.QRect(50, 50, 270, 100))
+        self.hintLabelEmptyMixPartSongList.setText("Hãy thêm bài hát")
+
+        self.updateHintEmptyPartSongMixList()
         self.updateListSongFromLib()
         if len(self.listSong) == 0:
             self.currentSongName = ""
@@ -47,8 +55,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.currentSongName = self.listSong[0]
             self.nameSongPlayingSpleet.setText(self.currentSongName)
 
-            # with open("info_song.txt") as i:
-            #     self.sliderSongPlayingSpleet.setMaximum(int(i.readlines()[0])*60)
+            with open(Path(self.user_data_folder, "lib", "7 Years", "song_duration.txt")) as f:
+                self.maxDurationMix = int(f.readlines()[0].strip())
+                self.sliderSongPlayingMix.setMaximum(self.maxDurationMix)
+                self.sliderSongPlayingMix.setMinimum(0)
 
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.spleet))
@@ -70,18 +80,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                                              , self.elements["drums"]))
         self.sliderOtherSpleet.valueChanged.connect(lambda: self.adjustVolume(self.sliderOtherSpleet.value()
                                                                               , self.elements["other"]))
-        self.downVocalSpleet.clicked.connect(self.downSong)
-        self.downBassSpleet.clicked.connect(self.downSong)
-        self.downPianoSpleet.clicked.connect(self.downSong)
-        self.downDrumSpleet.clicked.connect(self.downSong)
-        self.downOtherSpleet.clicked.connect(self.downSong)
-        self.playBtnMix.clicked.connect(lambda: self.playSong(0))
-        #self.sliderSongPlayingMix.valueChanged.connect(self.rewindSong)
-        # self.sliderEleMix.valueChanged.connect(self.adjustVolume)
-        # self.removeEleBtn.clicked.connect(self.removeEleMix)
+        self.downVocalSpleet.clicked.connect(
+            lambda: self.downPartSong(Path(self.user_data_folder, "lib", self.currentSongName, "vocals.mp3")))
+        self.downBassSpleet.clicked.connect(
+            lambda: self.downPartSong(Path(self.user_data_folder, "lib", self.currentSongName, "bass.mp3")))
+        self.downPianoSpleet.clicked.connect(
+            lambda: self.downPartSong(Path(self.user_data_folder, "lib", self.currentSongName, "piano.mp3")))
+        self.downDrumSpleet.clicked.connect(
+            lambda: self.downPartSong(Path(self.user_data_folder, "lib", self.currentSongName, "drums.mp3")))
+        self.downOtherSpleet.clicked.connect(
+            lambda: self.downPartSong(Path(self.user_data_folder, "lib", self.currentSongName, "other.mp3")))
+        self.playBtnMix.clicked.connect(self.playMixSong)
         self.exportBtnMix.clicked.connect(self.exportMixedSong)
 
-        self.sliderSongPlayingSpleet.sliderMoved.connect(self.set_position)
+        self.sliderSongPlayingMix.valueChanged.connect(self.setPositionMixPlayer)
+        self.sliderSongPlayingSpleet.sliderMoved.connect(self.setPositionSpleetPlayer)
+
+    def adjustVolume(self, value, player):
+        player.setVolume(value)
 
     def updateListSongFromLib(self):
         libFolder = Path(self.user_data_folder + "/lib")
@@ -257,7 +273,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def createElementSongEventHanlder(self, i, eSongBtn, downBtn):
         eSongBtn.clicked.connect(lambda: self.showSongSpleet(i))
-        downBtn.clicked.connect(self.downSong)
+        downBtn.clicked.connect(lambda: self.downSong(Path(self.user_data_folder, "lib", self.currentSongName)))
 
     def createElementMixSongEventHanlder(self, i, eMixSongComboList):
         eMixSongComboList.currentTextChanged.connect(
@@ -292,13 +308,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     content = QMediaContent(url)
                     self.elements[ePath].setMedia(content)
                     self.elements[ePath].play()
+                    self.playBtnSpleet.setChecked(False)
                 elif self.elements[ePath].state() == QMediaPlayer.PlayingState:
                     self.elements[ePath].pause()
+                    self.playBtnSpleet.setChecked(True)
                 else:
                     self.elements[ePath].play()
+                    self.playBtnSpleet.setChecked(False)
 
-                self.elements[ePath].positionChanged.connect(self.position_changed)
-                self.elements[ePath].durationChanged.connect(self.duration_changed)
+                self.elements[ePath].positionChanged.connect(
+                    lambda: self.sliderSongPlayingSpleet.setValue(self.elements[ePath].position()))
+                self.elements[ePath].durationChanged.connect(
+                    lambda: self.sliderSongPlayingSpleet.setRange(0, self.elements[ePath].duration()))
+
+    def playMixSong(self):
+        currentPlayState = None
+
+        for key in self.currentMixSongElement.keys():
+            for player in self.currentMixSongElement[key]["player"]:
+                if not currentPlayState:
+                    currentPlayState = player.state()
+                if currentPlayState == QMediaPlayer.PlayingState:
+                    player.pause()
+                    self.playBtnMix.setChecked(True)
+                else:
+                    player.play()
+                    self.playBtnMix.setChecked(False)
+
+    # Reset tất cả bài hát về ban đầu và dừng lại
+    def resetMixSong(self):
+        for key in self.currentMixSongElement.keys():
+            for player in self.currentMixSongElement[key]["player"]:
+                player.stop()
+        self.sliderSongPlayingMix.setValue(0)
+        self.playBtnMix.setChecked(True)
 
     # Phát bài hát trước hoặc sau
     def nextOrPrevSong(self, index):
@@ -324,47 +367,58 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.sliderSongPlayingSpleet.setValue(0)
 
+    # Tải thành phần bài hát
+    def downPartSong(self, partSongPath):
+        fileName = QFileDialog.getSaveFileName(filter="*.mp3 *.wav")
+        if fileName[0] != "":
+            output_folder = os.path.dirname(fileName[0])
+            new_song_name = os.path.basename(fileName[0]).split(".")[0]
+
+            # Vĩnh
+
+    # Tải bài hát
+    def downSong(self, songPath):
+        fileName = QFileDialog.getSaveFileName(filter="*.mp3 *.wav")
+        if fileName[0] != "":
+            output_folder = os.path.dirname(fileName[0])
+            new_song_name = os.path.basename(fileName[0]).split(".")[0]
+
+            # Vĩnh
+
     # Tải bài hát được tạo từ mảng tham số được truyền vào
     def exportMixedSong(self):
-        print("*****")
+        fileName = QFileDialog.getSaveFileName(filter="*.mp3 *.wav")
+        if fileName[0] != "":
+            output_folder = os.path.dirname(fileName[0])
+            new_song_name = os.path.basename(fileName[0]).split(".")[0]
 
-        output_folder = "data"
-        new_song_name = "new_song"
+            all_song_part_list = []
+            for key in self.currentMixSongElement.keys():
+                all_song_part_list += self.currentMixSongElement[key]["path"]
 
-        all_song_part_list = []
-        for key in self.currentMixSongElement.keys():
-            all_song_part_list += self.currentMixSongElement[key]["path"]
-        
-        for key in self.currentMixSongElement.keys():
-            part_song_path_i = self.currentMixSongElement[key]["path"]
-            self.app.export_custom_mixing_song(str(Path(self.user_data_folder, "lib").resolve()), part_song_path_i, new_song_name)
+            for key in self.currentMixSongElement.keys():
+                part_song_path_i = self.currentMixSongElement[key]["path"]
+                self.app.export_custom_mixing_song(str(Path(self.user_data_folder, "lib").resolve()), part_song_path_i,
+                                                   new_song_name)
 
-        self.app.export_custom_mixing_song(output_folder, all_song_part_list, new_song_name)
-        print("Tải bài hát")
+            self.app.export_custom_mixing_song(output_folder, all_song_part_list, new_song_name)
 
     # Điều chỉnh tốc độ bài hát được tạo từ mảng tham số được truyền vào
     def adjustSpeed(self):
-        print("*****")
-        """
-            input: speed
-            output: void
-        """
-        print("Điều chỉnh tốc độ bài hát")
+        self.currentSpeedSongIndex = (self.currentSpeedSongIndex + 1) % 4
+        for key in self.elements:
+            self.elements[key].setPlaybackRate(self.speedSongList[self.currentSpeedSongIndex])
+        self.speedBtn.setText("x" + format(self.speedSongList[self.currentSpeedSongIndex], ".1f"))
 
     # Tua bài hát được tạo từ mảng tham số được truyền vào đến vị trí mong muốn
-    def set_position(self, position):
+    def setPositionSpleetPlayer(self, position):
         for ePath in self.elements.keys():
             self.elements[ePath].setPosition(position)
 
-    def duration_changed(self, duration):
-        self.sliderSongPlayingSpleet.setRange(0, duration)
-
-    def position_changed(self, possition):
-        self.sliderSongPlayingSpleet.setValue(possition)
-
-    # Điều chỉnh âm lượng thành phần được truyền làm tham số
-    def adjustVolume(self, value, audio):
-        audio.setVolume(value)
+    def setPositionMixPlayer(self, position):
+        for key in self.currentMixSongElement.keys():
+            for player in self.currentMixSongElement[key]["player"]:
+                player.setPosition(position)
 
     # Xóa thành phần được truyền tham số trong danh sách cần mix
     def removeMixSongElement(self, mixMix):
@@ -376,13 +430,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     currentKey = key
                     index = i
 
-        mixMix.deleteLater()
+        self.currentMixSongElement[currentKey]["player"][index].positionChanged.disconnect()
 
+        mixMix.deleteLater()
         del self.currentMixSongElement[currentKey]["path"][index]
         del self.currentMixSongElement[currentKey]["player"][index]
         del self.currentMixSongElement[currentKey]["ui"][index]
 
         self.updateChooseMixE()
+
+        count = 0
+        for key in self.currentMixSongElement.keys():
+            count += len(self.currentMixSongElement[key]["player"])
+
+        if count == 0:
+            self.sliderSongPlayingMix.setValue(0)
+
+        self.updateHintEmptyPartSongMixList()
+
+    def updateHintEmptyPartSongMixList(self):
+        count = 0
+        for key in self.currentMixSongElement.keys():
+            count += len(self.currentMixSongElement[key]["player"])
+
+        if count == 0:
+            self.frame_46.hide()
+            self.hintLabelEmptyMixPartSongList.show()
+            self.playBtnMix.setCheckable(True)
+        else:
+            self.frame_46.show()
+            self.hintLabelEmptyMixPartSongList.hide()
 
     # Thêm thành phần vào danh sách cần mix
     def addEleMix(self, eMixSongComboList, songName):
@@ -398,6 +475,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             content = QMediaContent(url)
             player = QMediaPlayer()
             player.setMedia(content)
+
+            # Thêm tua bài hát
+            player.positionChanged.connect(lambda: self.sliderSongPlayingMix.setValue(player.position()))
+
             self.currentMixSongElement[currentPartSong]["player"].append(player)
 
             sliderEleMix, removeEleBtn, mixMix = self.createElementSongMixList(currentPartSong, songName)
@@ -409,8 +490,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                                 , player))
 
             removeEleBtn.clicked.connect(lambda: self.removeMixSongElement(mixMix))
-
+            self.resetMixSong()
             eMixSongComboList.setCurrentIndex(0)
+            self.updateHintEmptyPartSongMixList()
 
     def updateDict(self, currentPartSong, pathToPartSong):
         self.currentMixSongElement[currentPartSong]["path"].append(pathToPartSong)

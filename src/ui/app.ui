@@ -1357,20 +1357,20 @@ QSlider::handle:horizontal {
                         <x>40</x>
                         <y>19</y>
                         <width>65</width>
-                        <height>16</height>
+                        <height>20</height>
                        </rect>
                       </property>
                       <property name="text">
-                       <string>Vocal</string>
+                       <string>piano</string>
                       </property>
                      </widget>
                      <widget class="QLabel" name="nameSongPartEleMix">
                       <property name="geometry">
                        <rect>
                         <x>40</x>
-                        <y>5</y>
+                        <y>3</y>
                         <width>65</width>
-                        <height>16</height>
+                        <height>20</height>
                        </rect>
                       </property>
                       <property name="text">
