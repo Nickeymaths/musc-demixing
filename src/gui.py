@@ -61,8 +61,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.sliderSongPlayingMix.setMinimum(0)
 
     def addAllEventHandelers(self):
-        self.spleetBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.spleet))
-        self.mixBtn.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.mix))
+        self.spleetBtn.clicked.connect(self.routeSpleetScreen)
+        self.mixBtn.clicked.connect(self.routeMixScreen)
 
         self.addBtnSpleet.clicked.connect(self.addSongSpleet)
         self.playBtnSpleet.clicked.connect(self.playOrPauseSong)
@@ -95,6 +95,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.sliderSongPlayingMix.valueChanged.connect(self.setPositionMixPlayer)
         self.sliderSongPlayingSpleet.sliderMoved.connect(self.setPositionSpleetPlayer)
+
+    def routeSpleetScreen(self):
+        self.stackedWidget.setCurrentWidget(self.spleet)
+        self.playBtnMix.setChecked(True)
+        for key in self.currentMixSongElement.keys():
+            for player in self.currentMixSongElement[key]["player"]:
+                player.stop()
+
+    def routeMixScreen(self):
+        self.stackedWidget.setCurrentWidget(self.mix)
+        self.playBtnSpleet.setChecked(True)
+        for key in self.elements.keys():
+            self.elements[key].stop()
 
     def adjustVolume(self, value, player):
         player.setVolume(value)

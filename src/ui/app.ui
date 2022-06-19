@@ -993,6 +993,9 @@ border-radius: 12px;
                    <iconset resource="icons.qrc">
                     <normaloff>:/icons/icons/play.svg</normaloff>:/icons/icons/play.svg</iconset>
                   </property>
+                  <property name="checkable">
+                   <bool>false</bool>
+                  </property>
                  </widget>
                 </item>
                 <item>
