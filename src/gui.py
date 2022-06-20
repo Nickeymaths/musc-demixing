@@ -5,6 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia
 from PyQt5.QtCore import QUrl
 from PyQt5.QtMultimedia import QMediaPlaylist, QMediaPlayer, QMediaContent
 from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtGui import QMovie
 import os
 from .ui import icons_rc
 from pathlib import Path
@@ -47,6 +48,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.hintLabelEmptyMixPartSongList = QtWidgets.QLabel(self.mix)
         self.hintLabelEmptyMixPartSongList.setGeometry(QtCore.QRect(50, 50, 270, 100))
         self.hintLabelEmptyMixPartSongList.setText("Hãy thêm bài hát")
+
+        self.labelLoading = QtWidgets.QLabel(self.spleet)
+        self.labelLoading.setGeometry(QtCore.QRect(100, 100, 100, 100))
+        self.labelLoading.setMovie(QMovie("loading.gif"))
+        self.labelLoading.movie().start()
+        self.labelLoading.hide()
 
         self.updateHintEmptyPartSongMixList()
         self.updateListSongFromLib()
@@ -302,9 +309,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if song_name not in self.listSong:
                 # song_folder_in_lib = Path(self.user_data_folder, "lib", song_name)
                 # song_folder_in_lib.mkdir(exist_ok=True, parents=True)
+                self.labelLoading.show()
                 self.app.spleetSong(fileName[0], self.user_data_folder)
                 self.app.detachLyric(self.user_data_folder, song_name)
                 self.updateListSongFromLib()
+                self.labelLoading.hide()
 
     # Cập nhật tên bài hát
     def showSongSpleet(self, index):
