@@ -88,7 +88,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if value < self.lyricSong['times'][i]:
                 idx = i
                 break
-        self.lyricLabel.setText(self.lyricSong['lyrics'][idx])
+
+        if idx is not None:
+            self.lyricLabel.setText(self.lyricSong['lyrics'][idx])
+
+        currentTime = str(value // 60000) + ":" + str(value % 60000 // 1000).rjust(2, '0')
+        self.currentTimerSongLabel.setText(currentTime)
+        time = self.getSongDuration(Path(self.user_data_folder, "lib", self.currentSongName, "duration_info.txt"))
+        time = str(time // 60000) + ":" + str(time % 60000 // 1000).rjust(2, '0')
+        self.timerSongLabel.setText(time)
+
+        for key in self.elements:
+            if self.elements[key].mediaStatus() == QMediaPlayer.EndOfMedia:
+                self.playBtnSpleet.setChecked(True)
+                break
 
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(self.routeSpleetScreen)
@@ -354,6 +367,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.playBtnSpleet.setChecked(True)
         for key in self.elements.keys():
             self.elements[key].stop()
+
+        time = self.getSongDuration(Path(self.user_data_folder, "lib", self.currentSongName, "duration_info.txt"))
+        time = str(time // 60000) + ":" + str(time % 60000 // 1000).rjust(2, '0')
+        self.timerSongLabel.setText(time)
+        self.currentTimerSongLabel.setText("0:00")
 
     # Phát hoặc dừng bài hát hiện tại
     def playOrPauseSong(self):

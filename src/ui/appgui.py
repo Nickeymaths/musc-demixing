@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from . import icons_rc
 
 
 class Ui_MainWindow(object):
@@ -337,7 +338,7 @@ class Ui_MainWindow(object):
                                     "color: #9C9BBB;")
         self.speedBtn.setObjectName("speedBtn")
         self.sliderSongPlayingSpleet = QtWidgets.QSlider(self.frame)
-        self.sliderSongPlayingSpleet.setGeometry(QtCore.QRect(10, 26, 260, 16))
+        self.sliderSongPlayingSpleet.setGeometry(QtCore.QRect(52, 26, 176, 16))
         self.sliderSongPlayingSpleet.setStyleSheet("QSlider::groove:horizontal {\n"
                                                    "    height: 2px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */\n"
                                                    "    background: #E85353;\n"
@@ -353,6 +354,10 @@ class Ui_MainWindow(object):
                                                    "}")
         self.sliderSongPlayingSpleet.setOrientation(QtCore.Qt.Horizontal)
         self.sliderSongPlayingSpleet.setObjectName("sliderSongPlayingSpleet")
+        self.currentTimerSongLabel = QtWidgets.QLabel(self.frame)
+        self.currentTimerSongLabel.setGeometry(QtCore.QRect(10, 26, 32, 16))
+        self.timerSongLabel = QtWidgets.QLabel(self.frame)
+        self.timerSongLabel.setGeometry(QtCore.QRect(238, 26, 32, 16))
         self.scrollArea_2 = QtWidgets.QScrollArea(self.frame)
         self.scrollArea_2.setGeometry(QtCore.QRect(10, 79, 270, 100))
         self.scrollArea_2.setStyleSheet("border: none;\n"
@@ -653,3 +658,6 @@ class Ui_MainWindow(object):
         self.label_9.setText(_translate("MainWindow", "List"))
         self.exportBtnMix.setText(_translate("MainWindow", "Export"))
         self.label_12.setText(_translate("MainWindow", "List"))
+        self.currentTimerSongLabel.setText(_translate("MainWindow", "-:--"))
+        self.timerSongLabel.setText(_translate("MainWindow", "-:--"))
+
