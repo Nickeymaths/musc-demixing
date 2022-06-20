@@ -1,0 +1,3 @@
+[FORMAT]
+duration=314.017959
+[/FORMAT]

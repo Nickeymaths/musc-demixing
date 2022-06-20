@@ -1,6 +1,4 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from . import icons_rc
-import sys
 
 
 class Ui_MainWindow(object):
@@ -651,8 +649,7 @@ class Ui_MainWindow(object):
         self.spleetBtn.setText(_translate("MainWindow", "Spleet"))
         self.mixBtn.setText(_translate("MainWindow", "Mix"))
         self.speedBtn.setText(_translate("MainWindow", "x1.0"))
-        self.lyricLabel.setText(_translate("MainWindow",
-                                           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,"))
+        self.lyricLabel.setText(_translate("MainWindow", ""))
         self.label_9.setText(_translate("MainWindow", "List"))
         self.exportBtnMix.setText(_translate("MainWindow", "Export"))
         self.label_12.setText(_translate("MainWindow", "List"))

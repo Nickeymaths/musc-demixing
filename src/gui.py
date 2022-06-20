@@ -1,16 +1,17 @@
+import glob
+import os
+from pathlib import Path
+from shutil import copy
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QUrl
+from PyQt5.QtGui import QMovie
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QMainWindow
 
 from .ui.appgui import Ui_MainWindow
-from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia
-from PyQt5.QtCore import QUrl
-from PyQt5.QtMultimedia import QMediaPlaylist, QMediaPlayer, QMediaContent
-from PyQt5.QtWidgets import QFileDialog
-from PyQt5.QtGui import QMovie
-import os
-from .ui import icons_rc
-from pathlib import Path
-from shutil import copy
-import glob
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, app, parent=None):
@@ -19,6 +20,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.addAllEventHandelers()
 
+        self.lyricSong = {'times': [], 'lyrics': []}
+
         self.elements = {
             "vocals": QMediaPlayer(),
             "bass": QMediaPlayer(),
@@ -26,7 +29,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "drums": QMediaPlayer(),
             "other": QMediaPlayer(),
         }
-
 
         self.speedSongList = [0.5, 1, 1.5, 2]
         self.currentSpeedSongIndex = 1
@@ -64,6 +66,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.currentSongName = self.listSong[0]
             self.updateDurationSong()
             self.nameSongPlayingSpleet.setText(self.currentSongName)
+            self.getSongLyric()
+
+    def getSongLyric(self):
+        with open(Path(self.user_data_folder, 'lib', self.currentSongName, 'times.txt')) as f:
+            currentTime = 0
+            for line in f.readlines():
+                currentTime += float(line.strip()) * 1000.0
+                self.lyricSong['times'].append(int(currentTime))
+
+        eLyrics = os.listdir(Path(self.user_data_folder, 'lib', self.currentSongName, 'lyrics'))
+        eLyrics = sorted(eLyrics)
+
+        with open(Path(self.user_data_folder, 'lib', self.currentSongName, 'lyrics', eLyrics[len(eLyrics) // 2])) as f:
+            for line in f.readlines():
+                self.lyricSong['lyrics'].append(line.strip())
+
+    def updateSongLyric(self, value):
+        idx = None
+        for i in range(len(self.lyricSong['times'])):
+            if value < self.lyricSong['times'][i]:
+                idx = i
+                break
+        self.lyricLabel.setText(self.lyricSong['lyrics'][idx])
 
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(self.routeSpleetScreen)
@@ -100,6 +125,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.sliderSongPlayingMix.sliderMoved.connect(self.setPositionMixPlayer)
         self.sliderSongPlayingSpleet.sliderMoved.connect(self.setPositionSpleetPlayer)
+        self.sliderSongPlayingSpleet.valueChanged.connect(self.updateSongLyric)
 
     def routeSpleetScreen(self):
         self.stackedWidget.setCurrentWidget(self.spleet)
@@ -137,7 +163,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.hintLabelEmptySongList.hide()
 
     def updateDurationSong(self):
-        self.currentSongDuration = self.getSongDuration(Path(self.user_data_folder, "lib", self.currentSongName, "duration_info.txt"))
+        self.currentSongDuration = self.getSongDuration(
+            Path(self.user_data_folder, "lib", self.currentSongName, "duration_info.txt"))
         self.sliderSongPlayingSpleet.setMaximum(self.currentSongDuration)
         self.sliderSongPlayingSpleet.setMinimum(0)
 
@@ -405,7 +432,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             output_folder = os.path.dirname(fileName[0])
             new_song_name = os.path.basename(fileName[0]).split(".")[0]
 
-            copy(partSongPath, os.path.join(output_folder, new_song_name+".mp3"))
+            copy(partSongPath, os.path.join(output_folder, new_song_name + ".mp3"))
 
     # Tải bài hát
     def downSong(self, songPath):
@@ -414,7 +441,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             output_folder = os.path.dirname(fileName[0])
             new_song_name = os.path.basename(fileName[0]).split(".")[0]
 
-            input_part_song_path = glob.glob(str(songPath)+"/*.mp3")
+            input_part_song_path = glob.glob(str(songPath) + "/*.mp3")
             self.app.export_custom_mixing_song(output_folder, input_part_song_path, new_song_name)
 
     # Tải bài hát được tạo từ mảng tham số được truyền vào
