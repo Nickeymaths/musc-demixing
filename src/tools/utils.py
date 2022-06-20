@@ -66,7 +66,7 @@ def decode_result2lyric(decoded_file, output_file):
         scripts = [f.split(" ", 1)[1].strip().lower() for f in lines]
     
     with open(output_file, "w") as f:
-        f.write(" ".join(scripts))
+        f.write("\n".join(scripts))
 
 def seperate_lyrics(input_sound_path, tmpdir, outputdir, logdir):
     """
@@ -85,7 +85,16 @@ def seperate_lyrics(input_sound_path, tmpdir, outputdir, logdir):
     
     for i, f in enumerate(glob.glob(f"{decode_dir}/*.txt")):
         decode_result2lyric(f, f"{outputdir}/lyric_{i}.txt")
-        
+
+    with open(f"{tmpdir}/data/utt2dur") as f:
+        lines = []
+        for line in f.readlines():
+            lines.append(line.strip().split(" ", 1)[1])
+
+        song_folder = os.path.dirname(outputdir)
+        with open(f"{song_folder}/utt2dur.txt", "w") as f:
+            f.write("\n".join(lines))
+
     subprocess.run(f"rm -r {tmpdir}", shell=True)
 
 if __name__ == "__main__":
