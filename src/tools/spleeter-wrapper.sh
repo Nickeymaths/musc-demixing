@@ -416,7 +416,7 @@ for stem_name in "${STEM_NAMES[@]}"; do
   killCracksAndCreateOutput $stem_name $SPLEETER_OUT_EXT
 done
 
-
+EXT="mp3"
 conv_to_orig_format () {
   STEM="$1"
   ffmpeg -i $STEM.$SPLEETER_OUT_EXT $STEM.$EXT
