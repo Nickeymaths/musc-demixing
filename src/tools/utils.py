@@ -5,6 +5,7 @@ from subprocess import Popen, PIPE, STDOUT
 import sys
 from pathlib import Path
 import argparse
+from shutil import copy
 
 def resource_path(relative=''):
     root = getattr(sys, '_MEIPASS', os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
@@ -44,7 +45,8 @@ def mixing(input_sound_paths, output_folder, new_song_name):
         return
     
     if len(input_sound_paths) == 1:
-        sub_process.run(f"cp {input_sound_paths[0]} {output_folder}/{new_song_name}.mp3")
+        copy(input_sound_paths[0], f"{output_folder}/{new_song_name}.mp3")
+        # sub_process.run(f"cp {input_sound_paths[0]} {output_folder}/{new_song_name}.mp3")
         return
 
     cmd = "ffmpeg"

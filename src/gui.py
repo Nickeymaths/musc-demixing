@@ -8,7 +8,8 @@ from PyQt5.QtWidgets import QFileDialog
 import os
 from .ui import icons_rc
 from pathlib import Path
-
+from shutil import copy
+import glob
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, app, parent=None):
@@ -387,7 +388,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             output_folder = os.path.dirname(fileName[0])
             new_song_name = os.path.basename(fileName[0]).split(".")[0]
 
-            # Vĩnh
+            copy(partSongPath, os.path.join(output_folder, new_song_name+".mp3"))
 
     # Tải bài hát
     def downSong(self, songPath):
@@ -396,7 +397,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             output_folder = os.path.dirname(fileName[0])
             new_song_name = os.path.basename(fileName[0]).split(".")[0]
 
-            # Vĩnh
+            input_part_song_path = glob.glob(str(songPath)+"/*.mp3")
+            self.app.export_custom_mixing_song(output_folder, input_part_song_path, new_song_name)
 
     # Tải bài hát được tạo từ mảng tham số được truyền vào
     def exportMixedSong(self):
