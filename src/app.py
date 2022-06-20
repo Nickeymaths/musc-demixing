@@ -1,7 +1,8 @@
 from wsgiref import util
 from .tools import utils
 from pathlib import Path
-
+import subprocess
+import os
 
 class Application(object):
     def __init__(self):
@@ -42,3 +43,9 @@ class Application(object):
     
     def export_custom_mixing_song(self, output_folder, part_song_path_list, new_song_name):
         utils.mixing(part_song_path_list, output_folder, new_song_name)
+    
+    def export_duration_info(self, user_folder_path, song_name):
+        song_name = song_name.lower().replace(" ", "_")
+        file_path = os.path.join(user_folder_path, "lib", song_name, "vocals.mp3")
+        output_file_path = os.path.join(user_folder_path, "lib", song_name, "duration_info.txt")
+        subprocess.run(f"ffprobe -show_entries format=duration -i {file_path} > {output_file_path}", shell=True)

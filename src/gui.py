@@ -63,10 +63,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.currentSongName = self.listSong[0]
             self.nameSongPlayingSpleet.setText(self.currentSongName)
 
-            with open(Path(self.user_data_folder, "lib", "7 Years", "song_duration.txt")) as f:
-                self.maxDurationMix = int(f.readlines()[0].strip())
-                self.sliderSongPlayingMix.setMaximum(self.maxDurationMix)
-                self.sliderSongPlayingMix.setMinimum(0)
+            # with open(Path(self.user_data_folder, "lib", "7 Years", "song_duration.txt")) as f:
+            #     self.maxDurationMix = int(f.readlines()[0].strip())
+            #     self.sliderSongPlayingMix.setMaximum(self.maxDurationMix)
+            #     self.sliderSongPlayingMix.setMinimum(0)
 
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(self.routeSpleetScreen)
@@ -312,6 +312,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.labelLoading.show()
                 self.app.spleetSong(fileName[0], self.user_data_folder)
                 self.app.detachLyric(self.user_data_folder, song_name)
+                self.app.export_duration_info(self.user_data_folder, song_name)
                 self.updateListSongFromLib()
                 self.labelLoading.hide()
 
