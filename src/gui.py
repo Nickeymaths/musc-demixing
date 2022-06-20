@@ -24,18 +24,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "bass": QMediaPlayer(),
             "piano": QMediaPlayer(),
             "drums": QMediaPlayer(),
-            "other": QMediaPlayer()
+            "other": QMediaPlayer(),
         }
+
 
         self.speedSongList = [0.5, 1, 1.5, 2]
         self.currentSpeedSongIndex = 1
 
         self.currentMixSongElement = {
-            "vocals": {"path": [], "player": [], "ui": []},
-            "bass": {"path": [], "player": [], "ui": []},
-            "piano": {"path": [], "player": [], "ui": []},
-            "drums": {"path": [], "player": [], "ui": []},
-            "other": {"path": [], "player": [], "ui": []},
+            "vocals": {"path": [], "player": [], "ui": [], "duration": []},
+            "bass": {"path": [], "player": [], "ui": [], "duration": []},
+            "piano": {"path": [], "player": [], "ui": [], "duration": []},
+            "drums": {"path": [], "player": [], "ui": [], "duration": []},
+            "other": {"path": [], "player": [], "ui": [], "duration": []},
         }
 
         with open("user_data_location.txt") as f:
@@ -61,12 +62,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.currentSongName = ""
         else:
             self.currentSongName = self.listSong[0]
+            self.updateDurationSong()
             self.nameSongPlayingSpleet.setText(self.currentSongName)
-
-            # with open(Path(self.user_data_folder, "lib", "7 Years", "song_duration.txt")) as f:
-            #     self.maxDurationMix = int(f.readlines()[0].strip())
-            #     self.sliderSongPlayingMix.setMaximum(self.maxDurationMix)
-            #     self.sliderSongPlayingMix.setMinimum(0)
 
     def addAllEventHandelers(self):
         self.spleetBtn.clicked.connect(self.routeSpleetScreen)
@@ -101,7 +98,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.playBtnMix.clicked.connect(self.playMixSong)
         self.exportBtnMix.clicked.connect(self.exportMixedSong)
 
-        self.sliderSongPlayingMix.valueChanged.connect(self.setPositionMixPlayer)
+        self.sliderSongPlayingMix.sliderMoved.connect(self.setPositionMixPlayer)
         self.sliderSongPlayingSpleet.sliderMoved.connect(self.setPositionSpleetPlayer)
 
     def routeSpleetScreen(self):
@@ -138,6 +135,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.frame.show()
             self.hintLabelEmptySongList.hide()
+
+    def updateDurationSong(self):
+        self.currentSongDuration = self.getSongDuration(Path(self.user_data_folder, "lib", self.currentSongName, "duration_info.txt"))
+        self.sliderSongPlayingSpleet.setMaximum(self.currentSongDuration)
+        self.sliderSongPlayingSpleet.setMinimum(0)
 
     def createElementSongUI(self, index):
         frame = QtWidgets.QFrame(self.listSpleet)
@@ -293,7 +295,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return sliderEleMix, removeEleBtn, mixMix
 
     def createElementSongEventHanlder(self, i, eSongBtn, downBtn):
-        eSongBtn.clicked.connect(lambda: self.showSongSpleet(i))
+        eSongBtn.clicked.connect(lambda: self.updateSongSpleet(i))
         downBtn.clicked.connect(lambda: self.downSong(Path(self.user_data_folder, "lib", self.currentSongName)))
 
     def createElementMixSongEventHanlder(self, i, eMixSongComboList):
@@ -317,9 +319,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.labelLoading.hide()
 
     # Cập nhật tên bài hát
-    def showSongSpleet(self, index):
+    def updateSongSpleet(self, index):
         self.currentSongName = self.listSong[index]
         self.nameSongPlayingSpleet.setText(self.currentSongName)
+        self.updateDurationSong()
+        self.sliderSongPlayingSpleet.setValue(0)
+        self.playBtnSpleet.setChecked(True)
+        for key in self.elements.keys():
+            self.elements[key].stop()
 
     # Phát hoặc dừng bài hát hiện tại
     def playOrPauseSong(self):
@@ -461,8 +468,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         del self.currentMixSongElement[currentKey]["path"][index]
         del self.currentMixSongElement[currentKey]["player"][index]
         del self.currentMixSongElement[currentKey]["ui"][index]
+        del self.currentMixSongElement[currentKey]["duration"][index]
 
         self.updateChooseMixE()
+        self.updateSliderMix()
 
         count = 0
         for key in self.currentMixSongElement.keys():
@@ -509,6 +518,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             sliderEleMix, removeEleBtn, mixMix = self.createElementSongMixList(currentPartSong, songName)
             self.currentMixSongElement[currentPartSong]["ui"].append(mixMix)
             self.updateChooseMixE()
+            eDuration = self.getSongDuration(Path(self.songNameToPath(songName), "duration_info.txt"))
+            self.currentMixSongElement[currentPartSong]["duration"].append(eDuration)
+            self.updateSliderMix()
 
             sliderEleMix.valueChanged.connect(lambda:
                                               self.adjustVolume(sliderEleMix.value()
@@ -518,6 +530,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.resetMixSong()
             eMixSongComboList.setCurrentIndex(0)
             self.updateHintEmptyPartSongMixList()
+
+    def getSongDuration(self, pathSongDuration):
+        with open(pathSongDuration) as f:
+            return round(float((f.readlines()[1]).split("=")[1]) * 1000)
+
+    def updateSliderMix(self):
+        maxDuration = 0
+        for key in self.currentMixSongElement.keys():
+            if len(self.currentMixSongElement[key]["duration"]) > 0:
+                maxDuration = max(maxDuration, max(self.currentMixSongElement[key]["duration"]))
+        self.sliderSongPlayingMix.setMaximum(maxDuration)
+        self.sliderSongPlayingMix.setMinimum(0)
 
     def updateDict(self, currentPartSong, pathToPartSong):
         self.currentMixSongElement[currentPartSong]["path"].append(pathToPartSong)
