@@ -307,7 +307,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = QFileDialog.getOpenFileName(filter="*.wav *.mp3")
 
         if fileName[0] != "":
-            song_name = fileName[0].split("/")[-1].split(".")[0]
+            song_name = os.path.basename(fileName[0]).split(".")[0]
             if song_name not in self.listSong:
                 # song_folder_in_lib = Path(self.user_data_folder, "lib", song_name)
                 # song_folder_in_lib.mkdir(exist_ok=True, parents=True)
