@@ -14,7 +14,8 @@ class Ui_MainWindow(object):
         self.main.setStyleSheet("#main {\n"
                                 "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(244, 244, 253, 255), stop:1 rgba(223, 221, 243, 255))\n"
                                 "}\n"
-                                "")
+                                "* {border: none}"
+                                )
         self.main.setObjectName("main")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.main)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
