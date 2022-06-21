@@ -1,0 +1,33 @@
+# lattice-depth-per-frame "ark:gunzip -c /home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/lat.1.gz|" "ark,t:|gzip -c > /home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/depth_tmp.1.gz" ark:- | lattice-best-path --acoustic-scale=0.1 ark:- ark:/dev/null "ark,t:|gzip -c >/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/ali_tmp.1.gz" 
+# Started at Wed Jun 22 02:01:43 +07 2022
+#
+lattice-depth-per-frame 'ark:gunzip -c /home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/lat.1.gz|' 'ark,t:|gzip -c > /home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/depth_tmp.1.gz' ark:- 
+lattice-best-path --acoustic-scale=0.1 ark:- ark:/dev/null 'ark,t:|gzip -c >/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/ali_tmp.1.gz' 
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-000, best cost 240.278 + -2168.99 = -1928.71 over 337 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-001, best cost 295.429 + -1069.4 = -773.968 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-002, best cost 348.406 + -812.507 = -464.101 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-003, best cost 330.116 + -772.714 = -442.597 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-004, best cost 316.193 + -641.673 = -325.48 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-005, best cost 365.038 + -771.448 = -406.41 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-006, best cost 263.765 + -837.43 = -573.664 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-007, best cost 357.062 + -723.21 = -366.148 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-008, best cost 362.636 + -738.56 = -375.925 over 337 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-009, best cost 335.625 + -661.943 = -326.318 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-010, best cost 328.309 + -632.907 = -304.599 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-011, best cost 359.505 + -617.406 = -257.901 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-012, best cost 290.267 + -592.844 = -302.577 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-013, best cost 257.471 + -722.405 = -464.934 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-014, best cost 298.081 + -544.837 = -246.756 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-015, best cost 359.851 + -656.782 = -296.931 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-016, best cost 364.571 + -689.124 = -324.553 over 337 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-017, best cost 271.282 + -733.457 = -462.175 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-018, best cost 291.602 + -542.567 = -250.964 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-019, best cost 309.223 + -606.516 = -297.294 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-020, best cost 306.47 + -613.916 = -307.445 over 332 frames.
+LOG (lattice-depth-per-frame[5.5.0~1-ac29]:main():lattice-depth-per-frame.cc:82) Done 23 lattices.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-021, best cost 265.55 + -717.523 = -451.972 over 332 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:99) For utterance vocals-022, best cost 173.121 + -510.964 = -337.843 over 226 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:124) Overall cost per frame is -1.36372 = 0.939676 [graph] + -2.3034 [acoustic] over 7545 frames.
+LOG (lattice-best-path[5.5.0~1-ac29]:main():lattice-best-path.cc:128) Done 23 lattices, failed for 0
+# Accounting: time=0 threads=1
+# Ended (code 0) at Wed Jun 22 02:01:43 +07 2022, elapsed time 0 seconds

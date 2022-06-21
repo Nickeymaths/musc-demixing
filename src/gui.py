@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import QMainWindow
 from .ui.appgui import Ui_MainWindow
 
 
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, app, parent=None):
         super().__init__(parent)
@@ -50,7 +51,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.hintLabelEmptyMixPartSongList = QtWidgets.QLabel(self.mix)
         self.hintLabelEmptyMixPartSongList.setGeometry(QtCore.QRect(50, 50, 270, 100))
-        self.hintLabelEmptyMixPartSongList.setText("Hãy thêm bài hát")
+        self.hintLabelEmptyMixPartSongList.setText("Hãy thêm thành phần bài hát")
 
         self.labelLoading = QtWidgets.QLabel(self.spleet)
         self.labelLoading.setGeometry(QtCore.QRect(100, 100, 100, 100))
@@ -58,7 +59,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.labelLoading.movie().start()
         self.labelLoading.hide()
 
+        self.grayFrame = QtWidgets.QFrame(self.main)
+        self.grayFrame.setStyleSheet("background-color: #80000000")
+        self.grayFrame.setGeometry(QtCore.QRect(0, 0, 600, 500))
+        self.grayFrame.hide()
+
         self.updateHintEmptyPartSongMixList()
+        self.listSong = []
         self.updateListSongFromLib()
         if len(self.listSong) == 0:
             self.currentSongName = ""
@@ -79,6 +86,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         eLyrics = sorted(eLyrics)
 
         with open(Path(self.user_data_folder, 'lib', self.currentSongName, 'lyrics', eLyrics[len(eLyrics) // 2])) as f:
+            self.lyricSong['lyrics'] = []
             for line in f.readlines():
                 self.lyricSong['lyrics'].append(line.strip())
 
@@ -160,7 +168,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         libFolder = Path(self.user_data_folder + "/lib")
         if not libFolder.exists():
             libFolder.mkdir(parents=True, exist_ok=True)
-        self.listSong = os.listdir(libFolder)
+
+        newSong = list(set(os.listdir(libFolder)) - set(self.listSong))
+        self.listSong.extend(newSong)
+
+        for c in self.listSpleet.children():
+            c.hide()
+
+        for c in self.listMix.children():
+            c.hide()
+
         for i in range(len(self.listSong)):
             eSongBtn, downBtn = self.createElementSongUI(i)
             self.createElementSongEventHanlder(i, eSongBtn, downBtn)
@@ -344,23 +361,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     # Thêm bài hát trong page Spleet
     def addSongSpleet(self):
+        self.grayFrame.show()
+
         fileName = QFileDialog.getOpenFileName(filter="*.wav *.mp3")
 
         if fileName[0] != "":
             song_name = os.path.basename(fileName[0]).split(".")[0]
+
             if song_name not in self.listSong:
                 # song_folder_in_lib = Path(self.user_data_folder, "lib", song_name)
                 # song_folder_in_lib.mkdir(exist_ok=True, parents=True)
-                self.labelLoading.show()
+                # QtCore.QTimer.singleShot(100, lambda: self.labelLoading.show())
+                # self.labelLoading.show()
+                # self.grayFrame.show()
+
                 self.app.spleetSong(fileName[0], self.user_data_folder)
                 self.app.detachLyric(self.user_data_folder, song_name)
                 self.app.export_duration_info(self.user_data_folder, song_name)
                 self.updateListSongFromLib()
-                self.labelLoading.hide()
+        
+        self.grayFrame.hide()
+        
 
     # Cập nhật tên bài hát
     def updateSongSpleet(self, index):
         self.currentSongName = self.listSong[index]
+        self.getSongLyric()
         self.nameSongPlayingSpleet.setText(self.currentSongName)
         self.updateDurationSong()
         self.sliderSongPlayingSpleet.setValue(0)

@@ -1,0 +1,9 @@
+# ali-to-phones --write-lengths=true exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/../final.mdl "ark:gunzip -c /home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/ali_tmp.1.gz|" ark,t:- | perl -ne 'chomp;s/^\S+\s*//;@a=split /\s;\s/, $_;$count{"begin ".$a[$0]."\n"}++;
+  if(@a>1){$count{"end ".$a[-1]."\n"}++;}for($i=0;$i<@a;$i++){$count{"all ".$a[$i]."\n"}++;}
+  END{for $k (sort keys %count){print "$count{$k} $k"}}' | gzip -c > /home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/phone_stats.1.gz 
+# Started at Wed Jun 22 02:01:43 +07 2022
+#
+ali-to-phones --write-lengths=true exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/../final.mdl 'ark:gunzip -c /home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/ali_tmp.1.gz|' ark,t:- 
+LOG (ali-to-phones[5.5.0~1-ac29]:main():ali-to-phones.cc:134) Done 23 utterances.
+# Accounting: time=0 threads=1
+# Ended (code 0) at Wed Jun 22 02:01:43 +07 2022, elapsed time 0 seconds

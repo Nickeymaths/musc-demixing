@@ -1,0 +1,6 @@
+# compute-wer-bootci --mode=present ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/scoring_kaldi/test_filt.txt ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/scoring_kaldi/penalty_1.0/17.txt > /home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/scoring_kaldi/wer_details/wer_bootci 
+# Started at Wed Jun 22 02:01:51 +07 2022
+#
+compute-wer-bootci --mode=present ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/scoring_kaldi/test_filt.txt ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/scoring_kaldi/penalty_1.0/17.txt 
+# Accounting: time=0 threads=1
+# Ended (code 0) at Wed Jun 22 02:01:51 +07 2022, elapsed time 0 seconds

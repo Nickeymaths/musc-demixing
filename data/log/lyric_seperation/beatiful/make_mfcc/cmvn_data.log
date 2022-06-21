@@ -1,0 +1,2 @@
+compute-cmvn-stats --spk2utt=ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/spk2utt scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/feats.scp ark,scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/mfcc/cmvn_data.ark,/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/mfcc/cmvn_data.scp 
+LOG (compute-cmvn-stats[5.5.0~1-ac29]:main():compute-cmvn-stats.cc:171) Done accumulating CMVN stats for 23 utterances; 0 had errors.

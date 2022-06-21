@@ -1,0 +1,64 @@
+# nnet3-latgen-faster --online-ivectors=scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/ivectors/ivector_online.scp --online-ivector-period=10 --frame-subsampling-factor=3 --frames-per-chunk=50 --extra-left-context=0 --extra-right-context=0 --extra-left-context-initial=-1 --extra-right-context-final=-1 --minimize=false --max-active=7000 --min-active=200 --beam=15.0 --lattice-beam=8.0 --acoustic-scale=1.0 --allow-partial=true --word-symbol-table=exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/words.txt exp/chain_cleaned/tdnn_1d_sp/final.mdl exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/HCLG.fst "ark,s,cs:apply-cmvn --norm-means=false --norm-vars=false --utt2spk=ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/split1/1/utt2spk scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/split1/1/cmvn.scp scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/split1/1/feats.scp ark:- |" "ark:|lattice-scale --acoustic-scale=10.0 ark:- ark:- | gzip -c >/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/lat.1.gz" 
+# Started at Wed Jun 22 01:59:48 +07 2022
+#
+nnet3-latgen-faster --online-ivectors=scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/ivectors/ivector_online.scp --online-ivector-period=10 --frame-subsampling-factor=3 --frames-per-chunk=50 --extra-left-context=0 --extra-right-context=0 --extra-left-context-initial=-1 --extra-right-context-final=-1 --minimize=false --max-active=7000 --min-active=200 --beam=15.0 --lattice-beam=8.0 --acoustic-scale=1.0 --allow-partial=true --word-symbol-table=exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/words.txt exp/chain_cleaned/tdnn_1d_sp/final.mdl exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/HCLG.fst 'ark,s,cs:apply-cmvn --norm-means=false --norm-vars=false --utt2spk=ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/split1/1/utt2spk scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/split1/1/cmvn.scp scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/split1/1/feats.scp ark:- |' 'ark:|lattice-scale --acoustic-scale=10.0 ark:- ark:- | gzip -c >/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/decode_results/lat.1.gz' 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:RemoveOrphanNodes():nnet-nnet.cc:948) Removed 1 orphan nodes.
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:RemoveOrphanComponents():nnet-nnet.cc:847) Removing 2 orphan components.
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:Collapse():nnet-utils.cc:1488) Added 1 components, removed 2
+lattice-scale --acoustic-scale=10.0 ark:- ark:- 
+apply-cmvn --norm-means=false --norm-vars=false --utt2spk=ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/split1/1/utt2spk scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/split1/1/cmvn.scp scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/beatiful/data/split1/1/feats.scp ark:- 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:CheckAndFixConfigs():nnet-am-decodable-simple.cc:294) Increasing --frames-per-chunk from 50 to 51 to make it a multiple of --frame-subsampling-factor=3
+vocals-000 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-000 is 5.72317 over 337 frames.
+vocals-001 I'M SURE YOU KNOW THERE IS LITTLE WHERE WE FIRST MET AH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-001 is 2.33123 over 332 frames.
+vocals-002 WHY SO NERVE HERS I CURIOUS ME IN THEIR VERY LOW WORDS AHA THOUGH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-002 is 1.3979 over 332 frames.
+vocals-003 LAWN EH MY LIFE I FELL WHEREAS MISS CYNTHIA EASE SO AS NOT 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-003 is 1.33313 over 332 frames.
+vocals-004 I LOVE YOU WILL HAVE AN AH YOU YOU'LL OBSERVE YOU NO HARM IN IOWA 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-004 is 0.980364 over 332 frames.
+vocals-005 I RAN FROM NOW TILL MOTHER RE LAUGH FRERE THIS DAY I'LL SHARE EH YOU SERVE YOU 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-005 is 1.22413 over 332 frames.
+vocals-006 OH THEY ARE LA CHALEUR 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-006 is 1.72791 over 332 frames.
+vocals-007 WHY WE HELD IN HIS URI WHEREAS MY LOVE IS IN ROOMS INEBRIATE BEES REALLY WAR 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-007 is 1.10286 over 332 frames.
+vocals-008 SAY TO WHO ARE OURS YOU'RE MY AGREE REASON YOU RATHER AND I WILL THEE EH WHAT 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-008 is 1.1155 over 337 frames.
+vocals-009 THOUGH MY HA HEARD I MADE EVERY HURRAH SO AS LONG AS A LULU 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-009 is 0.982885 over 332 frames.
+vocals-010 WE'LL HAVE A HEN OH DO TELL ME YOU SO YOU REFER ANYHOW I RUN NOW 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-010 is 0.917467 over 332 frames.
+vocals-011 THE LAVA REAL LESS RARE WHICH CEREALS YELL RIDGE YOU'LL OBSERVE YOU REFER LENOIR 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-011 is 0.77681 over 332 frames.
+vocals-012 I DRIFTED NERA HO YOU SO 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-012 is 0.911378 over 332 frames.
+vocals-013 AH ME AH WELL 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-013 is 1.4004 over 332 frames.
+vocals-014 REALLY YOU'LL RUE DE LA EH AH NO EH EH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-014 is 0.743242 over 332 frames.
+vocals-015 THE DAUGHTER'S WOT I'VE HEARD YOU WHOM I KNOW HE HAS HER I FIND RAVAILLAC COUP IN EH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-015 is 0.894372 over 332 frames.
+vocals-016 THERE WHO IS YOU FOR THE LOVE LAD WHO WOE AND ALLOW ALL GOOD TELL ME AH GEO 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-016 is 0.963069 over 337 frames.
+vocals-017 OH OF YOUR OWN FOR YOU SIR 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-017 is 1.3921 over 332 frames.
+vocals-018 AH AH SO IS I REALLY HAVE NOW YOU 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-018 is 0.755918 over 332 frames.
+vocals-019 YOU MUST SERVE YOU EH HERE FOR A THOUSAND OTHER YASS SEH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-019 is 0.895465 over 332 frames.
+vocals-020 AND AS THEY ARE YEA YOU'LL SERVE YOU HA HA YOU KNOW 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-020 is 0.926041 over 332 frames.
+LOG (apply-cmvn[5.5.0~1-ac29]:main():apply-cmvn.cc:81) Copied 23 utterances.
+vocals-021 YOU ZONE OF HURRAH HURRAH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-021 is 1.36136 over 332 frames.
+vocals-022 RA 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-022 is 1.49488 over 226 frames.
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:main():nnet3-latgen-faster.cc:256) Time taken 113.445s: real-time factor assuming 100 frames/sec is 0.501193
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:main():nnet3-latgen-faster.cc:259) Done 23 utterances, failed for 0
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:main():nnet3-latgen-faster.cc:261) Overall log-likelihood per frame is 1.36372 over 7545 frames.
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:~CachingOptimizingCompiler():nnet-optimize.cc:710) 0.0577 seconds taken in nnet3 compilation total (breakdown: 0.0389 compilation, 0.0115 optimization, 0 shortcut expansion, 0.00209 checking, 1.17e-05 computing indexes, 0.00518 misc.) + 0 I/O.
+LOG (lattice-scale[5.5.0~1-ac29]:main():lattice-scale.cc:107) Done 23 lattices.
+# Accounting: time=115 threads=1
+# Ended (code 0) at Wed Jun 22 02:01:43 +07 2022, elapsed time 115 seconds

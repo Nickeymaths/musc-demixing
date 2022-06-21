@@ -1,0 +1,82 @@
+# nnet3-latgen-faster --online-ivectors=scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/ivectors/ivector_online.scp --online-ivector-period=10 --frame-subsampling-factor=3 --frames-per-chunk=50 --extra-left-context=0 --extra-right-context=0 --extra-left-context-initial=-1 --extra-right-context-final=-1 --minimize=false --max-active=7000 --min-active=200 --beam=15.0 --lattice-beam=8.0 --acoustic-scale=1.0 --allow-partial=true --word-symbol-table=exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/words.txt exp/chain_cleaned/tdnn_1d_sp/final.mdl exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/HCLG.fst "ark,s,cs:apply-cmvn --norm-means=false --norm-vars=false --utt2spk=ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/utt2spk scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/cmvn.scp scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/feats.scp ark:- |" "ark:|lattice-scale --acoustic-scale=10.0 ark:- ark:- | gzip -c >/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/decode_results/lat.1.gz" 
+# Started at Wed Jun 22 01:54:55 +07 2022
+#
+nnet3-latgen-faster --online-ivectors=scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/ivectors/ivector_online.scp --online-ivector-period=10 --frame-subsampling-factor=3 --frames-per-chunk=50 --extra-left-context=0 --extra-right-context=0 --extra-left-context-initial=-1 --extra-right-context-final=-1 --minimize=false --max-active=7000 --min-active=200 --beam=15.0 --lattice-beam=8.0 --acoustic-scale=1.0 --allow-partial=true --word-symbol-table=exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/words.txt exp/chain_cleaned/tdnn_1d_sp/final.mdl exp/chain_cleaned/tdnn_1d_sp/graph_tgsmall/HCLG.fst 'ark,s,cs:apply-cmvn --norm-means=false --norm-vars=false --utt2spk=ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/utt2spk scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/cmvn.scp scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/feats.scp ark:- |' 'ark:|lattice-scale --acoustic-scale=10.0 ark:- ark:- | gzip -c >/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/decode_results/lat.1.gz' 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:RemoveOrphanNodes():nnet-nnet.cc:948) Removed 1 orphan nodes.
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:RemoveOrphanComponents():nnet-nnet.cc:847) Removing 2 orphan components.
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:Collapse():nnet-utils.cc:1488) Added 1 components, removed 2
+lattice-scale --acoustic-scale=10.0 ark:- ark:- 
+apply-cmvn --norm-means=false --norm-vars=false --utt2spk=ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/utt2spk scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/cmvn.scp scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/feats.scp ark:- 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:CheckAndFixConfigs():nnet-am-decodable-simple.cc:294) Increasing --frames-per-chunk from 50 to 51 to make it a multiple of --frame-subsampling-factor=3
+vocals-000 I'VE FOUND A LA FOLLOW ME 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-000 is 2.28561 over 337 frames.
+vocals-001 DARLIN JUST DIE RIDING FOR A LONG MILDLY I FOUND THE GIRL 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-001 is 1.83971 over 332 frames.
+vocals-002 YOU ARE FULL OF LANDS AS WE ARE NEVER KNEW YOU OR SOME ONE WAITER 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-002 is 1.82435 over 332 frames.
+vocals-003 FOR THEE WE WERE JUST CLEARED WHEN WE FELL IN LOVE NOT KNOW IN WAR EH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-003 is 1.05916 over 332 frames.
+vocals-004 AH AH WILNA GAY ULLO YES AH I GARLAND WITH TEA 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-004 is 1.10038 over 332 frames.
+vocals-005 HIS KNEE LOW YOU'RE HARD IS LOU I OWN I ONLY KNEW I FLOW HO 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-005 is 1.32664 over 332 frames.
+vocals-006 I THEN HE BE EYE THEN FINN EH THE DOOR 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-006 is 1.14425 over 332 frames.
+vocals-007 WE DO WITH CLEANLY ARE RARE FULL ON THE GRASS SIN FOO ODDLY 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-007 is 1.04564 over 332 frames.
+vocals-008 EVEN SONG WHEN YOU SAID JULIA ROMANCE I WHISPERED UNDERNEATH MY PRAYER HUGH HUH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-008 is 1.25176 over 337 frames.
+vocals-009 LITTLE DARLING YOU ARE FAIR KNIGHT 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-009 is 1.32498 over 332 frames.
+vocals-010 LA FOUDRE WOMB STRONGER THAN ANY ONE I KNOW SHE SHARES MLLE 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-010 is 2.36489 over 332 frames.
+vocals-011 DREAMS THAT HO SUNDAY I'LL SHARE HER HO WHOM I FOUND THE LAW 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-011 is 1.48961 over 332 frames.
+vocals-012 HAVING LOZENGES SECRETS SHABBY LA CABBAGE EVEN OF THE WRONG 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-012 is 1.56104 over 332 frames.
+vocals-013 AND YE I FEEL KIT WHO IS SO THIN IN LOVE FARINELLI EH AH I KNOW 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-013 is 0.921028 over 332 frames.
+vocals-014 YOU'LL BE ALL RHYME AH DARLINGS HO MY EYE 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-014 is 0.951388 over 332 frames.
+vocals-015 AND REMIND HER ARE REALLY YOUR MAN I THINK OF YOU SIR EH OR EYE 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-015 is 1.05256 over 332 frames.
+vocals-016 THEY'LL BE HERE GROWLED THIN EH THE DAWN YOU THE TRUTH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-016 is 1.41588 over 337 frames.
+vocals-017 I AIN'T MONEY ON EH BUT ALL THE GRASS THIN AND DREW UP A VICTIM WIN 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-017 is 1.34345 over 332 frames.
+vocals-018 OH DO AND THAT FRANCE KINSALE VIEWED AS A LAD DON'T YE SIR HORACE GARLAND 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-018 is 0.738813 over 332 frames.
+vocals-019 YOU WERE ER NO WHOOP 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-019 is 1.78064 over 332 frames.
+vocals-020 AH WU WU WALL EH HA 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-020 is 0.822012 over 332 frames.
+vocals-021 GIRLS EH AH YOU WHICH READING EH EH EH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-021 is 1.18517 over 332 frames.
+vocals-022 HURRAH OR FRIENDLY THREW UP A MAXIM I HAVE FAITH IN YOU AND I SEE NOW I KNOW HA 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-022 is 1.14682 over 332 frames.
+vocals-023 HADN'T READ AND INANE LOO ARE SOON TO SEE YOU ER ER DOME 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-023 is 0.908022 over 332 frames.
+vocals-024 THE SIR DID YOU HULLO ER NO 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-024 is 1.52221 over 337 frames.
+vocals-025 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-025 is 3.83823 over 332 frames.
+vocals-026 E 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-026 is 3.40932 over 332 frames.
+vocals-027 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-027 is 2.13907 over 332 frames.
+vocals-028 OH OEUVRE EARLIER EH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-028 is 0.82236 over 332 frames.
+LOG (apply-cmvn[5.5.0~1-ac29]:main():apply-cmvn.cc:81) Copied 32 utterances.
+vocals-029 A LETTER ON'Y I KNEW HER OWN ALONE EH MAMMA ADDED ONLY A DRAMA ABBE 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-029 is 0.542343 over 332 frames.
+vocals-030 PRAY NOW AND BASIN IS ILL IS ONLY SEH GOD OF MAN MY BRAINS EH RAN AWAY 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-030 is 0.70035 over 332 frames.
+vocals-031 I'M IN A BASE READY NOW LAYS EH 
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:DecodeUtteranceLatticeFaster():decoder-wrappers.cc:375) Log-like per frame for utterance vocals-031 is 1.1126 over 141 frames.
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:main():nnet3-latgen-faster.cc:256) Time taken 130.119s: real-time factor assuming 100 frames/sec is 0.414934
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:main():nnet3-latgen-faster.cc:259) Done 32 utterances, failed for 0
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:main():nnet3-latgen-faster.cc:261) Overall log-likelihood per frame is 1.44284 over 10453 frames.
+LOG (nnet3-latgen-faster[5.5.0~1-ac29]:~CachingOptimizingCompiler():nnet-optimize.cc:710) 0.0774 seconds taken in nnet3 compilation total (breakdown: 0.0509 compilation, 0.0165 optimization, 0 shortcut expansion, 0.00284 checking, 1.48e-05 computing indexes, 0.00722 misc.) + 0 I/O.
+LOG (lattice-scale[5.5.0~1-ac29]:main():lattice-scale.cc:107) Done 32 lattices.
+# Accounting: time=131 threads=1
+# Ended (code 0) at Wed Jun 22 01:57:06 +07 2022, elapsed time 131 seconds

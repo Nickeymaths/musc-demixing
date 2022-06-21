@@ -1,0 +1,44 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/log/make_mfcc/utt2dur.1 --verbose=2 --config=conf/mfcc_hires.conf scp,p:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/log/make_mfcc/wav_data.1.scp ark:- | copy-feats --write-num-frames=ark,t:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/log/make_mfcc/utt2num_frames.1 --compress=true ark:- ark,scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/mfcc/raw_mfcc_data.1.ark,/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/mfcc/raw_mfcc_data.1.scp 
+# Started at Wed Jun 22 01:54:54 +07 2022
+#
+copy-feats --write-num-frames=ark,t:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/log/make_mfcc/utt2num_frames.1 --compress=true ark:- ark,scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/mfcc/raw_mfcc_data.1.ark,/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/mfcc/raw_mfcc_data.1.scp 
+compute-mfcc-feats --write-utt2dur=ark,t:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/log/make_mfcc/utt2dur.1 --verbose=2 --config=conf/mfcc_hires.conf scp,p:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/log/make_mfcc/wav_data.1.scp ark:- 
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-000
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-001
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-002
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-003
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-004
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-005
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-006
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-007
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-008
+LOG (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-009
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-010
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-011
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-012
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-013
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-014
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-015
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-016
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-017
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-018
+LOG (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:181) Processed 20 utterances
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-019
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-020
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-021
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-022
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-023
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-024
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-025
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-026
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-027
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-028
+LOG (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:181) Processed 30 utterances
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-029
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-030
+VLOG[2] (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:182) Processed features for key vocals-031
+LOG (compute-mfcc-feats[5.5.0~1-ac29]:main():compute-mfcc-feats.cc:185)  Done 32 out of 32 utterances.
+LOG (copy-feats[5.5.0~1-ac29]:main():copy-feats.cc:143) Copied 32 feature matrices.
+# Accounting: time=0 threads=1
+# Ended (code 0) at Wed Jun 22 01:54:54 +07 2022, elapsed time 0 seconds

@@ -1,0 +1,13 @@
+# ivector-extract-online2 --config=/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/ivectors/conf/ivector_extractor.conf ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/spk2utt scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/feats.scp ark:- | copy-feats --compress=true ark:- ark,scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/ivectors/ivector_online.1.ark,/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/ivectors/ivector_online.1.scp 
+# Started at Wed Jun 22 01:54:54 +07 2022
+#
+copy-feats --compress=true ark:- ark,scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/ivectors/ivector_online.1.ark,/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/ivectors/ivector_online.1.scp 
+ivector-extract-online2 --config=/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/ivectors/conf/ivector_extractor.conf ark:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/spk2utt scp:/home/sant1ago/Downloads/musc-demixing/data/tmp/lyric_seperation/perfect/data/split1/1/feats.scp ark:- 
+LOG (ivector-extract-online2[5.5.0~1-ac29]:ComputeDerivedVars():ivector-extractor.cc:183) Computing derived variables for iVector extractor
+LOG (ivector-extract-online2[5.5.0~1-ac29]:ComputeDerivedVars():ivector-extractor.cc:204) Done.
+LOG (ivector-extract-online2[5.5.0~1-ac29]:main():ivector-extract-online2.cc:189) Estimated iVectors for 32 files, 0 with errors.
+LOG (ivector-extract-online2[5.5.0~1-ac29]:main():ivector-extract-online2.cc:191) Average objective-function improvement was 24.6116 per frame, over 31350 frames (weighted).
+LOG (ivector-extract-online2[5.5.0~1-ac29]:main():ivector-extract-online2.cc:194) Average iVector length was 11.2749 and at utterance-end was 11.671, over 31350 frames (weighted);  expected length is 10
+LOG (copy-feats[5.5.0~1-ac29]:main():copy-feats.cc:143) Copied 32 feature matrices.
+# Accounting: time=1 threads=1
+# Ended (code 0) at Wed Jun 22 01:54:55 +07 2022, elapsed time 1 seconds
