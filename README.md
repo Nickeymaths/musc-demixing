@@ -39,9 +39,46 @@
 + Các bài hát đều là stereophonic được lấy mẫu với sampling rate 44.1kHz
 ### Phương pháp
 #### Tách thành phần âm thanh (Demixing)
-+ Sử dụng thư viện spleeter để phân tách thành các thành phần như đã mô tả phía trên
+Để có thể tách thành phần âm ta phải tiến hành trích xuất đặc trưng âm thanh MFCC, tuy nhiên do audio đầu và thể có kích thước lớn do đó trích xuất trực tiếp sẽ không đủ
+RAM, do đó cần lầm như sau:
+
++ Chia audio đầu vào thành nhiều mảnh nhỏ mỗi mảnh có độ dài 30s
++ Sử dụng thư viện spleeter để tách âm cho từng đoạn sau đó ghép lại thành audio tổng thể ban đầu
 #### Sinh lời tự động (Auto lyric seperation)
-+ Sử dụng kaldi, với pretrained model giọng đọc để tự động nhận dạng lời bài hát
+Finetune [pretrained model](https://kaldi-asr.org/models/13/0013_librispeech_v1_lm.tar.gz) một mô hình WFST được bởi các mô hình con HMM, Context-dependence-phones, Lexicon, Gramma
+
+`Training`
+
++ C, G, L là [3-gram model](https://kaldi-asr.org/models/13/0013_librispeech_v1_lm.tar.gz)
++ Lexicon từ điển gồm 134k từ có thể lấy ở [CMU dict](http://www.speech.cs.cmu.edu/cgi-bin/cmudict)
+ Các bước thực hiện
+ + Tạo format dữ liệu huấn luyện phù hợp với kaldi gồm 4 file
+
+ ++ wav.scp: mapping giữa audioId và audio tương ứng
+ 
+ ++ text: mapping giữa audioId và transcript
+ 
+ ++ utt2spk: mapping giữa từng file audio với id người nói
+ 
+ ++ spk2utt: mapping giữa spk và danh sách audio
+ 
+ + 3-gram ngôn LM gồm C, L, G (dùng lexicon có sẵn trên)
+ 
+ + Trích xuất đặc trưng MFCC, delta, delta-delta dữ liệu huấn luyện (Kaldi)
+
+ Loop (
+ + Train lại mô hình Monophone tức HMM có sẵn với LM
+ + Align lại đặc trưng MFCC, delta, delta-delta và 3-grám LM
+
+ )
+
+ + Build graph model HCLG.fst (kaldi)
+ 
+`Decode`
+
++ Trích xuất đặc trưng MFCC, delta, delta-MFCC
++ Decode kết bằng graph model HCLG.fst đã build (kaldi)
+
 ### Tạo môi trường
 Tạo môi trường conda cho project
 ```console

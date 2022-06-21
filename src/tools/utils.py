@@ -92,7 +92,7 @@ def seperate_lyrics(input_sound_path, tmpdir, outputdir, logdir):
             lines.append(line.strip().split(" ", 1)[1])
 
         song_folder = os.path.dirname(outputdir)
-        with open(f"{song_folder}/utt2dur.txt", "w") as f:
+        with open(f"{song_folder}/times.txt", "w") as f:
             f.write("\n".join(lines))
 
     subprocess.run(f"rm -r {tmpdir}", shell=True)
