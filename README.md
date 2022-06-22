@@ -6,15 +6,9 @@
 - Nguyễn Mạnh Tuấn - 19021381
 - Bùi Văn Toán - 19021372
 
-### Video demo các chức năng
-+ [Tách Lyrics, thành phần bài hát](https://drive.google.com/file/d/1juDw8lrURRmRd_zUH8UEXBIQss05-QOB/view?usp=sharing)
-+ [Tải bài hát, thành phần bài hát](https://drive.google.com/file/d/1DREJvj_jmAYWhE_mhWX7oOpVDPnAVtM-/view?usp=sharing)
-+ [Mix các thành phần bài hát](https://drive.google.com/file/d/1inT3vwtjpVMcdChQTNVeTzM0eUnD0-BN/view?usp=sharing)
-+ [Xóa thành phần bài hát](https://drive.google.com/file/d/1Zuw12Hmk1PIxqyr5ygA1HAJe80UEMpYS/view?usp=sharing)
-+ [Thêm bài hát](https://drive.google.com/file/d/1ILOvR609L9NqOmeBfHLvpuB3omrMkCmB/view?usp=sharing)
-+ [Điều chỉnh âm lượng](https://drive.google.com/file/d/1fXtYrqjiBo3XOVLG-nBN6yy74BVDnAcm/view?usp=sharing)
-+ [Chỉnh tốc độ bài hát](https://drive.google.com/file/d/1i5WvcO224fX0hlPCEB2FFPypFZtrHzx9/view?usp=sharing)
-+ [Tua bài hát](https://drive.google.com/file/d/12e_Rkeo12HNl8PHxQ_8p7wG9cxZQImAk/view?usp=sharing)
+### Video demo
++ [Quá trình tách các thành phần bài hát và lyrics](https://drive.google.com/file/d/1juDw8lrURRmRd_zUH8UEXBIQss05-QOB/view?usp=sharing)
++ [Demo các chức năng](https://drive.google.com/file/d/1hs66ALiy60NCKHp0E79achjHmHj4OBW1/view?usp=sharing)
 
 ### Phân công trong nhóm
 | Thành viên       | MSSV     | Đóng góp                                                      |
