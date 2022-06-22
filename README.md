@@ -6,6 +6,39 @@
 - Nguyễn Mạnh Tuấn - 19021381
 - Bùi Văn Toán - 19021372
 
+Tách Lyrics, thành phần bài hát
+
+https://drive.google.com/file/d/1S61zX-oWZidZPznIakQ0U7t0e2xOEdsK/view?usp=sharing
+
+Tải bài hát, thành phần bài hát
+
+https://drive.google.com/file/d/1DREJvj_jmAYWhE_mhWX7oOpVDPnAVtM-/view?usp=sharing
+
+Mix các thành phần bài hát
+
+https://drive.google.com/file/d/1inT3vwtjpVMcdChQTNVeTzM0eUnD0-BN/view?usp=sharing
+
+Xóa thành phần bài hát
+
+https://drive.google.com/file/d/1Zuw12Hmk1PIxqyr5ygA1HAJe80UEMpYS/view?usp=sharing
+
+Thêm bài hát
+
+https://drive.google.com/file/d/1ILOvR609L9NqOmeBfHLvpuB3omrMkCmB/view?usp=sharing
+
+Điều chỉnh âm lượng
+
+https://drive.google.com/file/d/1fXtYrqjiBo3XOVLG-nBN6yy74BVDnAcm/view?usp=sharing
+
+Chỉnh tốc độ bài hát
+
+https://drive.google.com/file/d/1i5WvcO224fX0hlPCEB2FFPypFZtrHzx9/view?usp=sharing
+
+Tua bài hát
+
+https://drive.google.com/file/d/12e_Rkeo12HNl8PHxQ_8p7wG9cxZQImAk/view?usp=sharing
+
+
 ### Phân công trong nhóm
 | Thành viên       | MSSV     | Đóng góp                                                      |
 |------------------|----------|---------------------------------------------------------------|
@@ -54,13 +87,13 @@ Finetune [pretrained model](https://kaldi-asr.org/models/13/0013_librispeech_v1_
  Các bước thực hiện
  + Tạo format dữ liệu huấn luyện phù hợp với kaldi gồm 4 file
 
- ++ wav.scp: mapping giữa audioId và audio tương ứng
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + wav.scp: mapping giữa audioId và audio tương ứng
  
- ++ text: mapping giữa audioId và transcript
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + text: mapping giữa audioId và transcript
  
- ++ utt2spk: mapping giữa từng file audio với id người nói
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + utt2spk: mapping giữa từng file audio với id người nói
  
- ++ spk2utt: mapping giữa spk và danh sách audio
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + spk2utt: mapping giữa spk và danh sách audio
  
  + 3-gram ngôn LM gồm C, L, G (dùng lexicon có sẵn trên)
  
