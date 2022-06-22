@@ -70,49 +70,74 @@ https://drive.google.com/file/d/12e_Rkeo12HNl8PHxQ_8p7wG9cxZQImAk/view?usp=shari
 + Dataset được sử dụng [MUSDB18](https://sigsep.github.io/datasets/musdb.html#musdb18-compressed-stems) gồm 150 bài hát với tổng thời lượng khoảng 10h thuộc các thể loại khác nhau trong đó có 100 bài dùng để huấn luyện và 50 bài được dùng để test
 + Mỗi bài có định danh cụ thể và được đặt trong một folder cùng tên chứa 5 thành phần mixture, drums, bass, vocals, other (các âm thanh của nhạc cụ khác)
 + Các bài hát đều là stereophonic được lấy mẫu với sampling rate 44.1kHz
-### Phương pháp
-#### Tách thành phần âm thanh (Demixing)
+## Phương pháp
+### Tách thành phần âm thanh (Demixing)
 Để có thể tách thành phần âm ta phải tiến hành trích xuất đặc trưng âm thanh MFCC, tuy nhiên do audio đầu và thể có kích thước lớn do đó trích xuất trực tiếp sẽ không đủ
-RAM, do đó cần lầm như sau:
+RAM, do đó cần làm như sau:
 
 + Chia audio đầu vào thành nhiều mảnh nhỏ mỗi mảnh có độ dài 30s
 + Sử dụng thư viện spleeter để tách âm cho từng đoạn sau đó ghép lại thành audio tổng thể ban đầu
-#### Sinh lời tự động (Auto lyric seperation)
+### Sinh lời tự động (Auto lyric seperation)
 Finetune [pretrained model](https://kaldi-asr.org/models/13/0013_librispeech_v1_lm.tar.gz) một mô hình WFST được bởi các mô hình con HMM, Context-dependence-phones, Lexicon, Gramma
 
-`Training`
+`Chuẩn bị dữ liệu, mô hình cần thiết`
 
-+ C, G, L là [3-gram model](https://kaldi-asr.org/models/13/0013_librispeech_v1_lm.tar.gz)
-+ Lexicon từ điển gồm 134k từ có thể lấy ở [CMU dict](http://www.speech.cs.cmu.edu/cgi-bin/cmudict)
- Các bước thực hiện
- + Tạo format dữ liệu huấn luyện phù hợp với kaldi gồm 4 file
+<details>
+    <summary>Chuẩn bị cấu hình cho G model, tạo graph model G.fst</summary>
+    G là một máy automat hữu hạn có đầu vào và đầu ra giống nhau có tác dụng giới hạn các câu có thể của ngôn ngữ, G tất định
 
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + wav.scp: mapping giữa audioId và audio tương ứng
- 
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + text: mapping giữa audioId và transcript
- 
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + utt2spk: mapping giữa từng file audio với id người nói
- 
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + spk2utt: mapping giữa spk và danh sách audio
- 
- + 3-gram ngôn LM gồm C, L, G (dùng lexicon có sẵn trên)
- 
- + Trích xuất đặc trưng MFCC, delta, delta-delta dữ liệu huấn luyện (Kaldi)
+- Tập hợp tất cả từ trong ngôn ngữ được lưu trong words.txt thuộc folder language
+- Dữ liệu chuỗi từ được sử dụng trong ngôn ngữ được lưu trong corpus.txt thuộc folder language
 
- Loop (
- + Train lại mô hình Monophone tức HMM có sẵn với LM
- + Align lại đặc trưng MFCC, delta, delta-delta và 3-grám LM
+→ Build ra G.fst
+</details>
 
- )
+<details>
+    <summary>Chuẩn bị cấu hình cho L model, tạo graph model L.fst</summary>
+    Đóng Kleen Union của tất cả WFST tương ứng  mỗi từ, nhận vào chuỗi phones và cho ra chuỗi words
 
- + Build graph model HCLG.fst (kaldi)
- 
-`Decode`
+- Từ điển tất cả independence phone của ngôn ngữ được lưu trong file lexicon.txt thuộc folder language
+- Các disambig sử dụng (#0, #1, #3) được lưu trong file disambig.txt các ký tự phụ được xử dụng để đảm bảo điều kiện tất điện của WFST L
 
-+ Trích xuất đặc trưng MFCC, delta, delta-MFCC
-+ Decode kết bằng graph model HCLG.fst đã build (kaldi)
+→ Build ra L.fst và kết hợp với G.fst → LG.fst
+</details>
 
-### Tạo môi trường
+<details>
+    <summary>Chuẩn bị cấu hình cho C model, tạo graph model C.fst</summary>
+    Context-dependence model nhận vào chuỗi context-dependence phone và dịch ra independence phones
+
+- Từ điển tất cả independence phone của ngôn ngữ được lưu trong file lexicon.txt thuộc folder language
+- disambig được lưu trong file disambig.txt
+
+→ Build và kết hợp với LG.fst → CLG.fst
+</details>
+
+<details>
+    <summary>Chuẩn bị cấu hình cho H model (Acoustic model), tạo graph model H.fst</summary>
+    WFST nhận đầu vào là chuỗi trạng thái của HMM cho đầu ra là chuỗi context-dependence phones
+
+- Kiến trúc DNN được lưu trong chain_cleaned/tdnn_1d_sp/configs/network.xconfig
+- Sử dụng pretrained DNN model với config được lưu trong chain_cleaned/tdnn_1d_sp/configs/final.config (Input là đặc trưng mfcc có 40 chiều, output là vector 6024 là số pdf-state của mô hình HMM)
+
+→ Make graph cho ra G.fst → Kết hợp với CLG.fst → HCLG.fst
+</details>
+
+<details>
+    <summary>Decode</summary>
+
+- Trích xuất đặc trưng mfcc của audio đầu vào
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + wav.scp: mapping giữa audioId và audio tương ứng
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + text: mapping giữa audioId và transcript
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + utt2spk: mapping giữa từng file audio với id người nói
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + spk2utt: mapping giữa spk và danh sách audio
+- Đưa đặc trưng thu được vào decode
+</details> 
+
+## Tạo môi trường
 Tạo môi trường conda cho project
 ```console
 $ conda env create -n musc-demixing python=3.8
@@ -146,7 +171,7 @@ $ make depend
 $ make
 ```
 
-### Chạy ứng dụng
+## Chạy ứng dụng
 ```console
 $ python3 musc-demixing.py
 ```

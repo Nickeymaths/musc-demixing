@@ -10,10 +10,6 @@ musc-demixing
 		progress.py
 		tools
 			__init__.py
-			- pretraind_models
-				- 2stems
-				- 4stems
-				- 5stems
 			spleeter-wrapper.sh
 			utils.py
 		- kaldi_helper
