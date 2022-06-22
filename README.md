@@ -42,7 +42,7 @@ https://drive.google.com/file/d/12e_Rkeo12HNl8PHxQ_8p7wG9cxZQImAk/view?usp=shari
 ### Phân công trong nhóm
 | Thành viên       | MSSV     | Đóng góp                                                      |
 |------------------|----------|---------------------------------------------------------------|
-| Bùi Văn Toán     | 19021372 | Phụ trách UI, code UI cơ bản, code logic UI, tìm hiểu mô hình |
+| Bùi Văn Toán     | 19021372 | Phụ trách UI, code UI cơ bản, code logic UI|
 | Nguyễn Văn Tú    | 19021381 | Code UI cơ bản, code logic UI, tìm hiểu mô hình               |
 | Nguyễn Mạnh Tuấn | 19021384 | Code UI cơ bản, code logic UI, tìm hiểu mô hình               |
 | Phạm Thanh Vĩnh  | 19021396 | Tìm hiểu mô hình, tổ chức thí nghiệm, tinh chỉnh code mô hình |
